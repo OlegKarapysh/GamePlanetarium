@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePlanetarium.Domain", "src\GamePlanetarium.Domain\GamePlanetarium.Domain.csproj", "{7367CB50-A6D8-421B-84F2-811A5C5B82A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePlanetarium.Domain.UnitTests", "tests\GamePlanetarium.Domain.UnitTests\GamePlanetarium.Domain.UnitTests.csproj", "{1840C386-60C7-4A6D-8F4C-56B3E40F38F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePlanetarium", "src\GamePlanetarium\GamePlanetarium.csproj", "{A518A7E0-9FE3-4D1F-A474-35F02C06E469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamePlanetarium.WebUI", "src\GamePlanetarium.WebUI\GamePlanetarium.WebUI.csproj", "{169096B9-8D26-4CB3-85E1-A188B475194F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7367CB50-A6D8-421B-84F2-811A5C5B82A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7367CB50-A6D8-421B-84F2-811A5C5B82A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7367CB50-A6D8-421B-84F2-811A5C5B82A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7367CB50-A6D8-421B-84F2-811A5C5B82A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1840C386-60C7-4A6D-8F4C-56B3E40F38F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1840C386-60C7-4A6D-8F4C-56B3E40F38F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1840C386-60C7-4A6D-8F4C-56B3E40F38F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1840C386-60C7-4A6D-8F4C-56B3E40F38F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A518A7E0-9FE3-4D1F-A474-35F02C06E469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A518A7E0-9FE3-4D1F-A474-35F02C06E469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A518A7E0-9FE3-4D1F-A474-35F02C06E469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A518A7E0-9FE3-4D1F-A474-35F02C06E469}.Release|Any CPU.Build.0 = Release|Any CPU
+		{169096B9-8D26-4CB3-85E1-A188B475194F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{169096B9-8D26-4CB3-85E1-A188B475194F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{169096B9-8D26-4CB3-85E1-A188B475194F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{169096B9-8D26-4CB3-85E1-A188B475194F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
