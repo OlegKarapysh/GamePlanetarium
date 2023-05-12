@@ -11,6 +11,7 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 src/GamePlanetarium.WebUI/wwwroot/lib/
+src/GamePlanetarium.WebUI/appsettings.Development.json
 
 # User-specific files
 *.rsuser
