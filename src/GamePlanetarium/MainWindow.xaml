@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GamePlanetarium"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="MainWindow_OnLoaded">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" x:Name="TextBlockMain" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Empty1"/>
+        <TextBlock Grid.Row="1" x:Name="TextBlockGameStats" 
+                   FontSize="30"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="Empty2"/>
     </Grid>
 </Window>

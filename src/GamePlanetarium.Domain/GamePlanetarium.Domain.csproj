@@ -6,4 +6,24 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Domain\**" />
+      <Compile Remove="Statistics\GameStatisticsData.cs" />
+      <Compile Remove="DTO\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Domain\**" />
+      <EmbeddedResource Remove="DTO\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Domain\**" />
+      <None Remove="DTO\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+    </ItemGroup>
+
 </Project>

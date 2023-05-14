@@ -7,4 +7,12 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GamePlanetarium.Domain\GamePlanetarium.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
