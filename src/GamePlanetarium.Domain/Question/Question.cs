@@ -7,6 +7,8 @@ public abstract class Question : IQuestion
     public string Text { get; set; }
     public Answer.Answer[] Answers { get; set; }
     public bool IsAnswered { get; protected set; }
+    public QuestionImage BlackWhiteImage { get; set; }
+    public QuestionImage ColoredImage { get; set; }
 
     protected Question(string text, Answer.Answer[] answers)
     {

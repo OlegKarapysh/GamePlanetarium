@@ -14,6 +14,9 @@ public partial class App
         {
             cfg.AddProfile<QuestionStatisticsProfile>();
             cfg.AddProfile<GameStatisticsProfile>();
+            cfg.AddProfile<QuestionImageProfile>();
+            cfg.AddProfile<AnswerProfile>();
+            cfg.AddProfile<QuestionProfile>();
         }));
         
         MainWindow = new MainWindow(_mapper);
