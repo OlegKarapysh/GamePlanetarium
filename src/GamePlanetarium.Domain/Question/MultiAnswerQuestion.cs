@@ -4,7 +4,8 @@ public class MultiAnswerQuestion : Question
 {
     public Answer.Answer[] CorrectAnswers { get; }
         
-    public MultiAnswerQuestion(string text, Answer.Answer[] answers) : base(text, answers)
+    public MultiAnswerQuestion(string text, Answer.Answer[] answers, QuestionImage image)
+        : base(text, answers, image)
     {
         CorrectAnswers = answers.Where(a => a.IsCorrect).ToArray();
         ThrowIfNoCorrectAnswers(CorrectAnswers);

@@ -3,8 +3,8 @@
 public class QuestionStatisticsData
 {
     public required string FirstAnswerText { get; init; }
-    public required int QuestionOrder { get; init; }
-    public int IncorrectAnswersCount { get; private set; }
+    public required byte QuestionOrder { get; init; }
+    public byte IncorrectAnswersCount { get; private set; }
 
     public void UpdateIncorrectAnswersCount(bool isAnswerCorrect)
     {

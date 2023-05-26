@@ -2,5 +2,5 @@
 
 public interface IGameFactory
 {
-    Game GetGameWithLocalization(bool isUkrLocal);
+    //Game GetGameWithLocalization(bool isUkrLocal);
 }

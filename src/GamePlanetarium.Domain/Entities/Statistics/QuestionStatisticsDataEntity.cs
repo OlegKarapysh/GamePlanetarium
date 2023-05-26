@@ -4,16 +4,14 @@ namespace GamePlanetarium.Domain.Entities.Statistics;
 
 public class QuestionStatisticsDataEntity
 {
+    [Key]
     public int Id { get; set; }
-    
-    [Required, MaxLength(1024, ErrorMessage = "Довжина питання не має перевищувати 1024 символів")]
+    [Required, MaxLength(1024, ErrorMessage = "Довжина відповіді не має перевищувати 1024 символів")]
     public string FirstAnswerText { get; set; }
+    [Required, Range(0, byte.MaxValue)]
+    public byte QuestionOrder { get; set; }
+    [Required, Range(0, byte.MaxValue)]
+    public byte IncorrectAnswersCount { get; set; }
     
-    [Required, Range(0, int.MaxValue)]
-    public int QuestionOrder { get; set; }
-    
-    [Required, Range(0, int.MaxValue)]
-    public int IncorrectAnswersCount { get; set; }
-    
-    public virtual GameStatisticsDataEntity Game { get; set; }
+    public GameStatisticsDataEntity Game { get; set; }
 }

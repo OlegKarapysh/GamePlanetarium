@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using AutoMapper;
 using GamePlanetarium.Domain.Answer;
+using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.GameData;
 using GamePlanetarium.Domain.Entities.Statistics;
 using GamePlanetarium.Domain.Game;
@@ -25,6 +26,13 @@ public partial class MainWindow
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
+        const string colorImagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ash flowers.jpg";
+        const string blackWhiteImagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ds mh.jpg";
+        var colorImageData = ConvertImageToBytes(colorImagePath);
+        var blackWhiteImageData = ConvertImageToBytes(blackWhiteImagePath);
+        ImageFromBytes!.Source = ConvertBytesToImage(colorImageData);
+        ImageFromBytesUpper!.Source = ConvertBytesToImage(blackWhiteImageData);
+        
         var questionStats = new QuestionStatisticsData
         {
             FirstAnswerText = "FirstAnswerText...",
@@ -38,11 +46,14 @@ public partial class MainWindow
             new("answer1", Answers.First, true),
             new("answer2", Answers.Second, false),
             new("answer3", Answers.Third, false),
-        });
-        var game = new GameObservable(new IQuestion[]
+        },
+            new QuestionImage
         {
-            question
+            ImageName = "blackwhite1",
+            BlackWhiteImageSource = blackWhiteImageData,
+            ColoredImageSource = colorImageData
         });
+        var game = new GameObservable(new IQuestion[] { question });
         var gameStats = new GameStatisticsDataCollector(game);
         game.TryAnswerQuestion(0, Answers.First);
         var gameStatsEntity = _mapper.Map<GameStatisticsDataEntity>(gameStats);
@@ -50,25 +61,16 @@ public partial class MainWindow
                                    gameStatsEntity.DateStamp + "-" +
                                    gameStatsEntity.QuestionsAnsweredCount + "-" +
                                    gameStatsEntity.QuestionsStatistics.First().FirstAnswerText;
-
-        var imagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ash flowers.jpg";
-        var imageData = ConvertImageToBytes(imagePath);
-        question.BlackWhiteImage = new QuestionImage
-        {
-            HashCode = 1,
-            ImageName = "blackwhite1",
-            ImageSource = imageData
-        };
-        ImageFromBytes!.Source = ConvertBytesToImage(imageData);
-        
-        imagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ds mh.jpg";
-        imageData = ConvertImageToBytes(imagePath);
-        ImageFromBytesUpper!.Source = ConvertBytesToImage(imageData);
-
         var questionEntity = _mapper.Map<QuestionEntity>(question)!;
         QuestionTextBlock!.Text = questionEntity.QuestionText + ": is singleAns: " +
-                                  questionEntity.IsSingleAnswer + " firstAns:" +
+                                  questionEntity.HasSingleAnswer + " firstAns:" +
                                   questionEntity.Answers.First().AnswerText;
+
+        using var db = new GameDb(
+            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;");
+        db.Questions.Add(questionEntity);
+        db.GameStatistics.Add(gameStatsEntity);
+        db.SaveChanges();
     }
 
     private byte[] ConvertImageToBytes(string imagePath)

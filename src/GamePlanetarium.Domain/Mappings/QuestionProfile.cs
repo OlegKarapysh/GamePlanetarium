@@ -10,9 +10,8 @@ public class QuestionProfile : Profile
     {
         CreateMap<Question.Question, QuestionEntity>()!
             .ForMember(d => d.QuestionText, s => s.MapFrom(f => f.Text))!
-            .ForMember(d => d.IsSingleAnswer, s => s.MapFrom(f => f is SingleAnswerQuestion))!
+            .ForMember(d => d.HasSingleAnswer, s => s.MapFrom(f => f is SingleAnswerQuestion))!
             .ForMember(d => d.Answers, s => s.MapFrom(f => f.Answers))!
-            .ForMember(d => d.BlackWhiteImage, s => s.MapFrom(f => f.BlackWhiteImage))!
-            .ForMember(d => d.ColoredImage, s => s.MapFrom(f => f.ColoredImage));
+            .ForMember(d => d.QuestionImage, s => s.MapFrom(f => f.QuestionImage));
     }
 }

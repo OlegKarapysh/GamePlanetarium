@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AutoMapper;
+using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Mappings;
 
 namespace GamePlanetarium;
@@ -18,10 +19,15 @@ public partial class App
             cfg.AddProfile<AnswerProfile>();
             cfg.AddProfile<QuestionProfile>();
         }));
-        
+        using (var db = new GameDb(
+                   @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
+        {
+            db.Database.EnsureCreated();
+        }
+
         MainWindow = new MainWindow(_mapper);
         MainWindow.Show();
-        
+
         base.OnStartup(e);
     }
 }

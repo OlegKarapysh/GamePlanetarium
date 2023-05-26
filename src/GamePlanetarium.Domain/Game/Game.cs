@@ -13,8 +13,13 @@ public class Game
         Questions = questions ?? throw new ArgumentNullException(nameof(questions));
     }
 
-    public virtual bool TryAnswerQuestion(int questionNumber, params Answers[] answerNumbers)
+    public virtual bool TryAnswerQuestion(byte questionNumber, params Answers[] answerNumbers)
     {
+        if (questionNumber >= Questions.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(questionNumber));
+        }
+        
         var question = Questions[questionNumber];
         var isAnswerCorrect = question.TryAnswer(
             answerNumbers

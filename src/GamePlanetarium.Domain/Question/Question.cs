@@ -5,16 +5,17 @@ public abstract class Question : IQuestion
     public const byte AnswersCount = 3;
             
     public string Text { get; set; }
-    public Answer.Answer[] Answers { get; set; }
+    public Answer.Answer[] Answers { get; }
+    public QuestionImage QuestionImage { get; }
     public bool IsAnswered { get; protected set; }
-    public QuestionImage BlackWhiteImage { get; set; }
-    public QuestionImage ColoredImage { get; set; }
 
-    protected Question(string text, Answer.Answer[] answers)
+    protected Question(string text, Answer.Answer[] answers, QuestionImage questionImage)
     {
+        ArgumentNullException.ThrowIfNull(questionImage);
         ThrowIfIncorrectAnswersCount(answers);
         Text = text;
         Answers = answers;
+        QuestionImage = questionImage;
     }
 
     public abstract bool CheckIfCorrect(params Answer.Answer[] answers);

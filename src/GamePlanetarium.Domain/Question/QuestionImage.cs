@@ -2,7 +2,17 @@
 
 public class QuestionImage
 {
-    public string ImageName { get; set; }
-    public int HashCode { get; set; }
-    public byte[] ImageSource { get; set; }
+    public required string ImageName { get; init; }
+    public required byte[] BlackWhiteImageSource { get; init; }
+    public required byte[] ColoredImageSource { get; init; }
+
+    public override int GetHashCode() => HashCode.Combine(BlackWhiteImageSource, ColoredImageSource);
+    public override string ToString() => ImageName;
+    public override bool Equals(object? obj)
+    {
+        return obj is QuestionImage otherImage &&
+               otherImage.ImageName == ImageName &&
+               otherImage.BlackWhiteImageSource.SequenceEqual(BlackWhiteImageSource) &&
+               otherImage.ColoredImageSource.SequenceEqual(ColoredImageSource);
+    }
 }

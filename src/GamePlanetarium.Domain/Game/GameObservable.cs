@@ -27,7 +27,7 @@ public sealed class GameObservable : Game, IGameObservable
     {
     }
 
-    public override bool TryAnswerQuestion(int questionNumber, params Answers[] answerNumbers)
+    public override bool TryAnswerQuestion(byte questionNumber, params Answers[] answerNumbers)
     {
         var question = Questions[questionNumber];
         var isAnswerCorrect = question.TryAnswer(
@@ -46,7 +46,7 @@ public sealed class GameObservable : Game, IGameObservable
 
     private void OnGameEnded() => GameEnded?.Invoke(this, EventArgs.Empty);
 
-    private void OnQuestionAnswered(int questionNumber, Answer.Answer answer, bool isCorrect)
+    private void OnQuestionAnswered(byte questionNumber, Answer.Answer answer, bool isCorrect)
     {
         TriedAnsweringQuestion?.Invoke(this, new AnsweredQuestionInfo
         {
