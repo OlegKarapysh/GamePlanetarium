@@ -20,11 +20,16 @@ public abstract class Question : IQuestion
 
     public abstract bool CheckIfCorrect(params Answer.Answer[] answers);
 
-    public virtual bool TryAnswer(params Answer.Answer[] answers) => IsAnswered = CheckIfCorrect(answers);
+    public virtual bool TryAnswer(params Answer.Answer[] answers)
+    {
+        var isAnswerCorrect = CheckIfCorrect(answers);
+        IsAnswered = IsAnswered || isAnswerCorrect;
+        return isAnswerCorrect;
+    }
 
     protected void ThrowIfNoCorrectAnswers(params Answer.Answer[]? answers)
     {
-        if (answers is null || answers.Length == 0)
+        if (answers is null || answers.Length == 0 || answers.FirstOrDefault() is null)
         {
             throw new ArgumentException("Answers must contain at least one correct answer!");
         }

@@ -29,17 +29,13 @@ public sealed class GameObservable : Game, IGameObservable
 
     public override bool TryAnswerQuestion(byte questionNumber, params Answers[] answerNumbers)
     {
-        var question = Questions[questionNumber];
-        var isAnswerCorrect = question.TryAnswer(
-            answerNumbers
-                .Select(answerNumber => question.Answers[(int)answerNumber])
-                .ToArray());
-        if (isAnswerCorrect)
-        {
-            IsGameEnded = Questions.All(q => q.IsAnswered);
-        }
-        var firstAnswer = question.Answers[(int)answerNumbers.First()];
+        var isAnswerCorrect = base.TryAnswerQuestion(questionNumber, answerNumbers);
+        var firstAnswer = Questions[questionNumber].Answers[(int)answerNumbers.First()];
         OnQuestionAnswered(questionNumber, firstAnswer, isAnswerCorrect);
+        if (IsGameEnded)
+        {
+            OnGameEnded();
+        }
 
         return isAnswerCorrect;
     }

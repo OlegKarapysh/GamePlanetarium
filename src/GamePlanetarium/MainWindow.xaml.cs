@@ -46,13 +46,7 @@ public partial class MainWindow
             new("answer1", Answers.First, true),
             new("answer2", Answers.Second, false),
             new("answer3", Answers.Third, false),
-        },
-            new QuestionImage
-        {
-            ImageName = "blackwhite1",
-            BlackWhiteImageSource = blackWhiteImageData,
-            ColoredImageSource = colorImageData
-        });
+        }, new QuestionImage("blackwhite1", blackWhiteImageData, colorImageData));
         var game = new GameObservable(new IQuestion[] { question });
         var gameStats = new GameStatisticsDataCollector(game);
         game.TryAnswerQuestion(0, Answers.First);

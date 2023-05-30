@@ -19,6 +19,10 @@ public class Game
         {
             throw new ArgumentOutOfRangeException(nameof(questionNumber));
         }
+        if (IsGameEnded)
+        {
+            throw new InvalidOperationException("Cannot answer the question when the game has ended!");
+        }
         
         var question = Questions[questionNumber];
         var isAnswerCorrect = question.TryAnswer(
