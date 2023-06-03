@@ -2,5 +2,6 @@
 
 public interface IGameFactory
 {
-    //Game GetGameWithLocalization(bool isUkrLocal);
+    GameObservable GetGameBySeed(QuestionsSeed questionSeed, ImageSeed imageSeed);
+    GameObservable GetGameByLocal(bool isUkrLocal);
 }

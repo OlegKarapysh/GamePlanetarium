@@ -106,8 +106,7 @@ public class GameObservableTest
         _sut.IsGameEnded.Should()!.BeTrue();
         tryAnswerAfterGameEnded.Should()!.Throw<InvalidOperationException>();
     }
-
-
+    
     [Fact]
     public void TryAnswerQuestion_ShouldRaiseTriedAnsweringQuestionEvent_WithCorrectArgs()
     {

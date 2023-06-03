@@ -1,96 +1,84 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using AutoMapper;
-using GamePlanetarium.Domain.Answer;
+using GamePlanetarium.Components;
 using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.GameData;
-using GamePlanetarium.Domain.Entities.Statistics;
 using GamePlanetarium.Domain.Game;
 using GamePlanetarium.Domain.Question;
-using GamePlanetarium.Domain.Statistics;
+using GamePlanetarium.ViewModels;
 
 namespace GamePlanetarium;
 
 public partial class MainWindow
 {
     private readonly Mapper _mapper;
+    private readonly GameFactory _gameFactory;
+    private readonly MainWindowViewModel _mainWindowViewModel;
+    private readonly List<Image> _questionImagesUkr;
+    private bool _isUkrLocal;
     private bool _isUpperImageVisible;
     
     public MainWindow(Mapper mapper)
     {
         _mapper = mapper;
+        _isUkrLocal = true;
+        var questionsSeedUkr = new QuestionsSeedUkr();
+        var imageSeed = new ImageSeedUkr();
+        _gameFactory = new GameFactory(questionsSeedUkr, null, imageSeed, null, (_, _) => ShowVictoryWindow());
+        // TODO: get startGame from db.
+        var startGame = _gameFactory.GetGameByLocal(isUkrLocal: true);
+        // using (var db = new GameDb(
+        //            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
+        // {
+        //     foreach (var question in _game.Questions)
+        //     {
+        //         db.Questions.Add(_mapper.Map<QuestionEntity>((SingleAnswerQuestion)question)!);
+        //     }
+        //     db.SaveChanges();
+        // }
         InitializeComponent();
+        _questionImagesUkr = new List<Image>
+        {
+            FirstImage!, SecondImage!, ThirdImage!, FourthImage!, FifthImage!, SixthImage!, 
+            SeventhImage!, EighthImage!, NinthImage!, TenthImage!, EleventhImage!, 
+            TwelfthImage!, ThirteenthImage!, FourteenthImage!, FifteenthImage!
+        };
+        DataContext = _mainWindowViewModel = new MainWindowViewModel(startGame, _gameFactory, _questionImagesUkr);
     }
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
-        const string colorImagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ash flowers.jpg";
-        const string blackWhiteImagePath = @"C:\Users\sebas\Pictures\Saved Pictures\ds mh.jpg";
-        var colorImageData = ConvertImageToBytes(colorImagePath);
-        var blackWhiteImageData = ConvertImageToBytes(blackWhiteImagePath);
-        ImageFromBytes!.Source = ConvertBytesToImage(colorImageData);
-        ImageFromBytesUpper!.Source = ConvertBytesToImage(blackWhiteImageData);
-        
-        var questionStats = new QuestionStatisticsData
-        {
-            FirstAnswerText = "FirstAnswerText...",
-            QuestionOrder = 1
-        };
-        var questionStatsEntity = _mapper.Map<QuestionStatisticsDataEntity>(questionStats);
-        TextBlockMain!.Text = questionStatsEntity!.FirstAnswerText + questionStatsEntity.QuestionOrder;
-
-        var question = new SingleAnswerQuestion("questionText", new Answer[]
-        {
-            new("answer1", Answers.First, true),
-            new("answer2", Answers.Second, false),
-            new("answer3", Answers.Third, false),
-        }, new QuestionImage("blackwhite1", blackWhiteImageData, colorImageData));
-        var game = new GameObservable(new IQuestion[] { question });
-        var gameStats = new GameStatisticsDataCollector(game);
-        game.TryAnswerQuestion(0, Answers.First);
-        var gameStatsEntity = _mapper.Map<GameStatisticsDataEntity>(gameStats);
-        TextBlockGameStats!.Text = gameStatsEntity!.IsGameEnded + "-" +
-                                   gameStatsEntity.DateStamp + "-" +
-                                   gameStatsEntity.QuestionsAnsweredCount + "-" +
-                                   gameStatsEntity.QuestionsStatistics.First().FirstAnswerText;
-        var questionEntity = _mapper.Map<QuestionEntity>(question)!;
-        QuestionTextBlock!.Text = questionEntity.QuestionText + ": is singleAns: " +
-                                  questionEntity.HasSingleAnswer + " firstAns:" +
-                                  questionEntity.Answers.First().AnswerText;
-
-        using var db = new GameDb(
-            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;");
-        db.Questions.Add(questionEntity);
-        db.GameStatistics.Add(gameStatsEntity);
-        db.SaveChanges();
+        // TODO: something on load.
+        // FirstImage!.Source = ConvertBytesToImage(_game.Questions[2].QuestionImage.ColoredImageSource);
     }
 
-    private byte[] ConvertImageToBytes(string imagePath)
+    private void OnQuestionImageActivated(object sender, MouseButtonEventArgs e)
     {
-        byte[] bytes;
-        using var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-        using var memoryStream = new MemoryStream();
-        fileStream.CopyTo(memoryStream);
-        bytes = memoryStream.ToArray();
-        return bytes;
+        _mainWindowViewModel.ShowQuestionImageCommand.Execute(sender);
+        // TODO: Show question window dialog, show colored image, hide black-white image and disable it.
     }
 
-    private BitmapImage ConvertBytesToImage(byte[] bytes)
+    private void ChangeLocalizationImage_OnActivated(object sender, MouseButtonEventArgs e)
     {
-        var imageSource = new BitmapImage();
-        using var memoryStream = new MemoryStream(bytes);
-        imageSource.BeginInit();
-        imageSource.StreamSource = memoryStream;
-        imageSource.CacheOption = BitmapCacheOption.OnLoad;
-        imageSource.EndInit();
-        return imageSource;
+        // TODO: change the text in the game and images.
     }
 
+    private void RestartImage_OnActivated(object sender, MouseButtonEventArgs e)
+    {
+        // TODO: create new game, save and upload game statistics.
+        _mainWindowViewModel.RestartGameCommand.Execute(sender);
+    }
+    
     private void ChangeImageButton_OnClick(object sender, RoutedEventArgs e)
     {
         _isUpperImageVisible = !_isUpperImageVisible;
-        ImageFromBytesUpper!.Visibility = _isUpperImageVisible ? Visibility.Visible : Visibility.Collapsed;
+        //ImageFromBytesUpper!.Visibility = _isUpperImageVisible ? Visibility.Visible : Visibility.Collapsed;
     }
+    
+    private void ShowVictoryWindow() => new GameVictoriousWindow(_isUkrLocal).ShowDialog();
 }

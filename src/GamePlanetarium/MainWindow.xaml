@@ -5,43 +5,229 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GamePlanetarium"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000"
+        Title=""
+        WindowStyle="None"
+        WindowState="Maximized" 
+        Width="1920" Height="1080"
+        ResizeMode="NoResize"
+        Background="{StaticResource BackgroundSpace1}"
+        Style="{StaticResource WithDefaultFont}"
         Loaded="MainWindow_OnLoaded">
+    <Window.Resources>
+        <Style x:Key="QuestionImage" TargetType="{x:Type Image}">
+            <Setter Property="MaxHeight" Value="215"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Direction="30" 
+                                      Color="Black" 
+                                      ShadowDepth="10" BlurRadius="14" />
+                </Setter.Value>
+            </Setter>
+            <EventSetter Event="MouseDown" Handler="OnQuestionImageActivated"/>
+            <!-- TODO: decide what to do with Touch events -->
+            <!-- <EventSetter Event="TouchUp" Handler="OnQuestionImageActivated"/> -->
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Row="0" x:Name="TextBlockMain" 
-                   FontSize="30"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="Empty1"/>
-        <TextBlock Grid.Row="1" x:Name="TextBlockGameStats" 
-                   FontSize="30"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="Empty2"/>
-        <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="88*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
             
-            <Image Grid.Column="0" x:Name="ImageFromBytes"/>
-            <Image Grid.Column="0" x:Name="ImageFromBytesUpper" Visibility="Collapsed"/>
-            <Button Grid.Column="1" x:Name="ChangeImageButton"
-                    MinWidth="100"
-                    Content="Change image"
-                    Click="ChangeImageButton_OnClick"/>
+            <Image Grid.Row="0" Grid.Column="0"
+                   Source="Images/logo_orange.png"
+                   HorizontalAlignment="Left"
+                   MaxHeight="130"/>
+            
+            <Image Grid.Row="0" Grid.Column="1"
+                   x:Name="ChangeLocalizationImage"
+                   Source="Images/localization_white.png"
+                   MaxHeight="80"
+                   HorizontalAlignment="Right"
+                   MouseDown="ChangeLocalizationImage_OnActivated"/>
+            
+            <Image Grid.Row="0" Grid.Column="2"
+                   x:Name="RestartImage"
+                   Source="Images/restart_white.png"
+                   MaxHeight="80"
+                   HorizontalAlignment="Right"
+                   MouseDown="RestartImage_OnActivated"/>
         </Grid>
-        <TextBlock Grid.Row="3" x:Name="QuestionTextBlock"
-                   FontSize="30"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="Empty3"/>
+
+        <Canvas Grid.Row="2" Grid.Column="1" x:Name="ImagesCanvas">
+            <TextBlock x:Name="GameTitleTextBlock"
+                       FontFamily="{StaticResource BebasNeue}" 
+                       FontWeight="Bold"
+                       Foreground="White"
+                       FontSize="64"
+                       Text="{DynamicResource GameTitle}">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="-38"/>
+                </TextBlock.LayoutTransform>
+            </TextBlock>
+
+            <Image Source="{Binding FirstImage}" x:Name="FirstImage"
+                   Canvas.Top="15"
+                   Canvas.Left="530"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="11"/>
+                </Image.LayoutTransform>
+            </Image>
+            <Image x:Name="FirstImageEn"
+                   Canvas.Top="5"
+                   Canvas.Left="530"
+                   Visibility="Hidden"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="11"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 2}" x:Name="SecondImage"
+                   Canvas.Top="0"
+                   Canvas.Left="850"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-5"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 3}" x:Name="ThirdImage"
+                   Canvas.Top="10"
+                   Canvas.Left="1150"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="21"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 4}" x:Name="FourthImage"
+                   Canvas.Top="15"
+                   Canvas.Left="1480"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="25"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 5}" x:Name="FifthImage"
+                   Canvas.Top="230"
+                   Canvas.Left="360"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-29"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 6}" x:Name="SixthImage"
+                   Canvas.Top="230"
+                   Canvas.Left="650"
+                   MaxHeight="330"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-15"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 7}" x:Name="SeventhImage"
+                   Canvas.Top="320"
+                   Canvas.Left="1020"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-2"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 8}" x:Name="EighthImage"
+                   Canvas.Top="305"
+                   Canvas.Left="1270"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-15"/>
+                </Image.LayoutTransform>
+            </Image>
+
+            <Image Source="{DynamicResource 9}" x:Name="NinthImage"
+                   Canvas.Top="330"
+                   Canvas.Left="1530"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="12"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 10}" x:Name="TenthImage"
+                   Canvas.Top="590"
+                   Canvas.Left="1420"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="12"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 11}" x:Name="EleventhImage"
+                   Canvas.Top="580"
+                   Canvas.Left="1150"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="3"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 12}" x:Name="TwelfthImage"
+                   Canvas.Top="580"
+                   Canvas.Left="900"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-4"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 13}" x:Name="ThirteenthImage"
+                   Canvas.Top="580"
+                   Canvas.Left="600"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="15"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 14}" x:Name="FourteenthImage"
+                   Canvas.Top="550"
+                   Canvas.Left="320"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="-9"/>
+                </Image.LayoutTransform>
+            </Image>
+            
+            <Image Source="{DynamicResource 15}" x:Name="FifteenthImage"
+                   Canvas.Top="470"
+                   Canvas.Left="40"
+                   Style="{StaticResource QuestionImage}">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="18"/>
+                </Image.LayoutTransform>
+            </Image>
+        </Canvas>
     </Grid>
 </Window>

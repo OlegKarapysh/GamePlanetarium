@@ -32,10 +32,6 @@ public sealed class GameObservable : Game, IGameObservable
         var isAnswerCorrect = base.TryAnswerQuestion(questionNumber, answerNumbers);
         var firstAnswer = Questions[questionNumber].Answers[(int)answerNumbers.First()];
         OnQuestionAnswered(questionNumber, firstAnswer, isAnswerCorrect);
-        if (IsGameEnded)
-        {
-            OnGameEnded();
-        }
 
         return isAnswerCorrect;
     }

@@ -7,7 +7,7 @@ namespace GamePlanetarium;
 
 public partial class App
 {
-    private Mapper _mapper;
+    private Mapper? _mapper;
 
     protected override void OnStartup(StartupEventArgs e)
     {
