@@ -47,7 +47,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="88*"/>
+                <ColumnDefinition Width="28*"/>
+                <ColumnDefinition Width="60*"/>
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
@@ -57,22 +58,32 @@
                    HorizontalAlignment="Left"
                    MaxHeight="130"/>
             
-            <Image Grid.Row="0" Grid.Column="1"
+            <ProgressBar Grid.Row="0" Grid.Column="1" x:Name="WorkProgressBar"
+                         MaxHeight="70"
+                         Visibility="Hidden"/>
+            
+            <Image Grid.Row="0" Grid.Column="2"
                    x:Name="ChangeLocalizationImage"
                    Source="Images/localization_white.png"
                    MaxHeight="80"
                    HorizontalAlignment="Right"
                    MouseDown="ChangeLocalizationImage_OnActivated"/>
             
-            <Image Grid.Row="0" Grid.Column="2"
+            <Image Grid.Row="0" Grid.Column="3"
                    x:Name="RestartImage"
                    Source="Images/restart_white.png"
                    MaxHeight="80"
                    HorizontalAlignment="Right"
                    MouseDown="RestartImage_OnActivated"/>
         </Grid>
+        <ItemsControl Grid.Row="2" Grid.Column="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-        <Canvas Grid.Row="2" Grid.Column="1" x:Name="ImagesCanvas">
+        <!-- <Canvas Grid.Row="2" Grid.Column="1" x:Name="ImagesCanvas"> -->
             <TextBlock x:Name="GameTitleTextBlock"
                        FontFamily="{StaticResource BebasNeue}" 
                        FontWeight="Bold"
@@ -84,7 +95,7 @@
                 </TextBlock.LayoutTransform>
             </TextBlock>
 
-            <Image Source="{Binding FirstImage}" x:Name="FirstImage"
+                <Image Source="{Binding FirstImage}" x:Name="FirstImage"
                    Canvas.Top="15"
                    Canvas.Left="530"
                    Style="{StaticResource QuestionImage}">
@@ -228,6 +239,7 @@
                     <RotateTransform Angle="18"/>
                 </Image.LayoutTransform>
             </Image>
-        </Canvas>
+        <!-- </Canvas> -->
+        </ItemsControl>
     </Grid>
 </Window>

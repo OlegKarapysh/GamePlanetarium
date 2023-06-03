@@ -18,9 +18,9 @@ public class MainWindowViewModel : ViewModelBase
     public List<Image> QuestionImagesUkr { get; }
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr;
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng;
+    public List<BitmapImage> Exper { get; }
     public ICommand ShowQuestionImageCommand { get; }
     public ICommand RestartGameCommand { get; }
-    public volatile bool IsCommandExecuting;
     public bool IsUkrLocalization
     {
         get => _isUkrLocalization;
@@ -72,6 +72,7 @@ public class MainWindowViewModel : ViewModelBase
         ShowQuestionImageCommand = new ShowQuestionWindowCommand(this);
         RestartGameCommand = new RestartGameCommand(this);
         _firstImage = BitmapImageConverter.ConvertBytesToImage(Game.Questions[0].QuestionImage.BlackWhiteImageSource);
+        Exper = new List<BitmapImage>() { FirstImage };
     }
 
     public void ChangeLocal()

@@ -71,7 +71,7 @@ public partial class MainWindow
     private void RestartImage_OnActivated(object sender, MouseButtonEventArgs e)
     {
         // TODO: create new game, save and upload game statistics.
-        _mainWindowViewModel.RestartGameCommand.Execute(sender);
+        _mainWindowViewModel.RestartGameCommand.Execute(WorkProgressBar);
     }
     
     private void ChangeImageButton_OnClick(object sender, RoutedEventArgs e)
