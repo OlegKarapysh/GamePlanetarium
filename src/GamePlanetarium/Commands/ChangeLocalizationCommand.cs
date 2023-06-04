@@ -1,33 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using GamePlanetarium.Domain.Statistics;
+using System.Windows.Media.Imaging;
+using GamePlanetarium.Domain.Game;
 using GamePlanetarium.ViewModels;
 
 namespace GamePlanetarium.Commands;
 
-public class RestartGameCommand : ICommand
+public class ChangeLocalizationCommand : ICommand
 {
     public event EventHandler? CanExecuteChanged;
 
     private readonly MainWindowViewModel _mainWindow;
     
-    public RestartGameCommand(MainWindowViewModel mainWindow) => _mainWindow = mainWindow;
+    public ChangeLocalizationCommand(MainWindowViewModel mainWindow) => _mainWindow = mainWindow;
 
     public bool CanExecute(object? parameter) => true;
 
     public void Execute(object? parameter)
     {
-        // TODO: write statistics to database.
-        if (_mainWindow.Game.Questions.All(q => !q.IsAnswered))
-        {
-            return;
-        }
-        
         var progressBar = (ProgressBar)parameter!;
         progressBar.Visibility = Visibility.Visible;
         var backgroundWorker = new BackgroundWorker { WorkerReportsProgress = true };
@@ -37,15 +32,25 @@ public class RestartGameCommand : ICommand
             var progressStep = (int)Math.Ceiling(100m / _mainWindow.QuestionImages.Count);
             var worker = (sender as BackgroundWorker)!;
             worker.ReportProgress(currentProgressPercentage);
-            var bitmapImages = _mainWindow.IsUkrLocalization
-                ? _mainWindow.BitmapImagesUkr
-                : _mainWindow.BitmapImagesEng;
-            _mainWindow.Game = _mainWindow.GameFactory.GetGameByLocal(_mainWindow.IsUkrLocalization);
-            _mainWindow.GameStatistics = new GameStatisticsDataCollector(_mainWindow.Game);
+
+            QuestionsSeed questionsSeed;
+            List<(BitmapImage blackWhite, BitmapImage colored)> bitmapImages;
+            if (_mainWindow.IsUkrLocalization)
+            {
+                questionsSeed = _mainWindow.GameFactory.EngSeed;
+                bitmapImages = _mainWindow.BitmapImagesEng;
+            }
+            else
+            {
+                questionsSeed = _mainWindow.GameFactory.UkrSeed;
+                bitmapImages = _mainWindow.BitmapImagesUkr;
+            }
+            _mainWindow.Game.ChangeQuestionsTextBySeed(questionsSeed);
+            _mainWindow.ChangeLocal();
             for (int i = 0; i < _mainWindow.QuestionImages.Count; i++)
             {
-                _mainWindow.QuestionImages[i].ImageSource = bitmapImages[i].blackWhite;
-                _mainWindow.QuestionImages[i].IsEnabled = true;
+                _mainWindow.QuestionImages[i].ImageSource =
+                    _mainWindow.QuestionImages[i].IsEnabled ? bitmapImages[i].blackWhite : bitmapImages[i].colored;
                 worker.ReportProgress(currentProgressPercentage += progressStep);
                 Thread.Sleep(1);
             }

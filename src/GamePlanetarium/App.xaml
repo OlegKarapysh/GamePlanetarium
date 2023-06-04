@@ -1,14 +1,9 @@
 ﻿<Application x:Class="GamePlanetarium.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GamePlanetarium">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- TODO: handle application exit and startup -->
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="LocalizableResources/UkrainianResourceDictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            
             <ImageBrush x:Key="BackgroundSpace1"
                         ImageSource="pack://application:,,,/GamePlanetarium;component/Images/GameBack.png"/>
             

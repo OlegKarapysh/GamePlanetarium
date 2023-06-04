@@ -13,5 +13,5 @@ public class GameStatisticsDataEntity
     [Required]
     public DateOnly DateStamp { get; set; }
 
-    public ICollection<QuestionStatisticsDataEntity> QuestionsStatistics { get; set; }
+    public ICollection<QuestionStatisticsDataEntity> QuestionsStatistics { get; set; } = null!;
 }

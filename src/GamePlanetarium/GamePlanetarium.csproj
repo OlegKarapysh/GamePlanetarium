@@ -287,6 +287,14 @@
       <Content Include="Images\victory_emoji.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Images\12-color-en.png" />
+      <Content Include="Images\12-color-en.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Images\12-en.png" />
+      <Content Include="Images\12-en.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

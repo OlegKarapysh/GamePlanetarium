@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using GamePlanetarium.Commands;
@@ -11,68 +12,72 @@ namespace GamePlanetarium.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public Dictionary<string, int> ImageNumbers { get; }
     public GameObservable Game { get; set; }
     public GameStatisticsDataCollector GameStatistics { get; set; }
     public IGameFactory GameFactory { get; }
-    public List<Image> QuestionImagesUkr { get; }
-    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr;
-    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng;
-    public List<BitmapImage> Exper { get; }
+    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr { get; }
+    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng { get; }
     public ICommand ShowQuestionImageCommand { get; }
     public ICommand RestartGameCommand { get; }
+    public ICommand ChangeLocalizationCommand { get; }
+    public ObservableCollection<QuestionImageViewModel> QuestionImages { get; }
     public bool IsUkrLocalization
     {
         get => _isUkrLocalization;
         set
         {
             _isUkrLocalization = value;
+            GameTitle = value ? GameTitleUkr : GameTitleEng;
             OnPropertyChanged();
         }
     }
-    public BitmapImage FirstImage
+    public string GameTitle
     {
-        get => _firstImage;
+        get => _gameTitle;
         set
         {
-            _firstImage = value;
+            _gameTitle = value;
             OnPropertyChanged();
         }
     }
-    
-    private bool _isUkrLocalization;
-    private BitmapImage _firstImage;
 
-    public MainWindowViewModel(GameObservable startGame, IGameFactory gameFactory, List<Image> questionImagesUkr)
+    private const string GameTitleUkr = "ТЕСТ НА УВАЖНІСТЬ";
+    private const string GameTitleEng = "ATTENTION TEST";
+    private bool _isUkrLocalization = true;
+    private string _gameTitle = GameTitleUkr;
+    private readonly QuestionImageViewModel.QuestionImagePosition[] _questionImagePositions;
+
+    public MainWindowViewModel(GameObservable startGame, IGameFactory gameFactory)
     {
-        ImageNumbers = new Dictionary<string, int>
-        {
-            { "FirstImage", 1 },
-            { "SecondImage", 2 },
-            { "ThirdImage", 3 },
-            { "FourthImage", 4 },
-            { "FifthImage", 5 },
-            { "SixthImage", 6 },
-            { "SeventhImage", 7 },
-            { "EighthImage", 8 },
-            { "NinthImage", 9 },
-            { "TenthImage", 10 },
-            { "EleventhImage", 11 },
-            { "TwelfthImage", 12 },
-            { "ThirteenthImage", 13 },
-            { "FourteenthImage", 14 },
-            { "FifteenthImage", 15 }
-        };
-        QuestionImagesUkr = questionImagesUkr;
-        _isUkrLocalization = true;
         GameFactory = gameFactory;
         Game = startGame;
         GameStatistics = new GameStatisticsDataCollector(Game);
-        BitmapImagesUkr = InitBitmapImages(Game);
+        _questionImagePositions = new QuestionImageViewModel.QuestionImagePosition[]
+        {
+            new(15, 530, 11),
+            new(0, 850, -5),
+            new(10, 1150, 21),
+            new(15, 1480, 25),
+            new(230, 360, -29),
+            new(230, 650, -15),
+            new(320, 1020, -2),
+            new(305, 1270, -15),
+            new(330, 1530, 12),
+            new(590, 1420, 13),
+            new(580, 1150, 3),
+            new(580, 900, -4),
+            new(580, 600, 15),
+            new(550, 320, -9),
+            new(470, 40, 18)
+        };
+        BitmapImagesUkr = InitBitmapImages(GameFactory.UkrImg);
+        BitmapImagesEng = InitBitmapImages(GameFactory.EngImg);
+        QuestionImages = InitQuestionImageViewModels(
+            BitmapImagesUkr.Select(i => i.blackWhite).ToArray(), _questionImagePositions);
+        
         ShowQuestionImageCommand = new ShowQuestionWindowCommand(this);
         RestartGameCommand = new RestartGameCommand(this);
-        _firstImage = BitmapImageConverter.ConvertBytesToImage(Game.Questions[0].QuestionImage.BlackWhiteImageSource);
-        Exper = new List<BitmapImage>() { FirstImage };
+        ChangeLocalizationCommand = new ChangeLocalizationCommand(this);
     }
 
     public void ChangeLocal()
@@ -80,18 +85,30 @@ public class MainWindowViewModel : ViewModelBase
         IsUkrLocalization = !IsUkrLocalization;
     }
 
-    private List<(BitmapImage blackWhite, BitmapImage colored)> InitBitmapImages(GameObservable game)
+    private List<(BitmapImage blackWhite, BitmapImage colored)> InitBitmapImages(ImageSeed imageSeed)
     {
-        var images = new List<(BitmapImage blackWhite, BitmapImage colored)>();
-        for (int i = 0; i < game.Questions.Length; i++)
+        var result = new List<(BitmapImage blackWhite, BitmapImage colored)>();
+        foreach (var questionImage in imageSeed.QuestionImages)
         {
             var blackWhiteImage =
-                BitmapImageConverter.ConvertBytesToImage(game.Questions[i].QuestionImage.BlackWhiteImageSource);
+                BitmapImageConverter.ConvertBytesToImage(questionImage.BlackWhiteImageSource);
             var coloredImage =
-                BitmapImageConverter.ConvertBytesToImage(game.Questions[i].QuestionImage.ColoredImageSource);
-            images.Add((blackWhiteImage, coloredImage));
+                BitmapImageConverter.ConvertBytesToImage(questionImage.ColoredImageSource);
+            result.Add((blackWhiteImage, coloredImage));
         }
 
-        return images;
+        return result;
+    }
+
+    private ObservableCollection<QuestionImageViewModel> InitQuestionImageViewModels(
+        BitmapImage[] images, QuestionImageViewModel.QuestionImagePosition[] positions)
+    {
+        var result = new ObservableCollection<QuestionImageViewModel>();
+        for (int i = 0; i < images.Length; i++)
+        {
+            result.Add(new QuestionImageViewModel((byte)i, images[i], positions[i]));
+        }
+
+        return result;
     }
 }

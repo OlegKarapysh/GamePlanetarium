@@ -5,24 +5,24 @@ namespace GamePlanetarium.Domain.Game;
 
 public class GameFactory : IGameFactory
 {
+    public QuestionsSeed UkrSeed { get; }
+    public QuestionsSeed EngSeed { get; }
+    public ImageSeed UkrImg { get; }
+    public ImageSeed EngImg { get; }
     private readonly EventHandler _onGameEnded;
-    private readonly QuestionsSeed _ukrSeed;
-    private readonly QuestionsSeed _engSeed;
-    private readonly ImageSeed _ukrImg;
-    private readonly ImageSeed _engImg;
     
     public GameFactory(QuestionsSeed ukrSeed, QuestionsSeed engSeed, ImageSeed ukrImg, ImageSeed engImg,
         EventHandler onGameEnded)
     {
-        _ukrSeed = ukrSeed;
-        _engSeed = engSeed;
-        _ukrImg = ukrImg;
-        _engImg = engImg;
+        UkrSeed = ukrSeed;
+        EngSeed = engSeed;
+        UkrImg = ukrImg;
+        EngImg = engImg;
         _onGameEnded = onGameEnded;
     }
 
     public GameObservable GetGameByLocal(bool isUkrLocal) => 
-        isUkrLocal ? GetGameBySeed(_ukrSeed, _ukrImg) : GetGameBySeed(_engSeed, _engImg);
+        isUkrLocal ? GetGameBySeed(UkrSeed, UkrImg) : GetGameBySeed(EngSeed, EngImg);
 
     public GameObservable GetGameBySeed(QuestionsSeed questionSeed, ImageSeed imageSeed)
     {
