@@ -1,4 +1,6 @@
-﻿namespace GamePlanetarium.Domain.Game;
+﻿using GamePlanetarium.Domain.GameSeeds;
+
+namespace GamePlanetarium.Domain.Game;
 
 public class QuestionsSeedEng : QuestionsSeed
 {

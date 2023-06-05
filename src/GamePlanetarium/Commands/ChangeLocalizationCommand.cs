@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using GamePlanetarium.Domain.Game;
+using GamePlanetarium.Domain.GameSeeds;
 using GamePlanetarium.ViewModels;
 
 namespace GamePlanetarium.Commands;
@@ -33,16 +34,16 @@ public class ChangeLocalizationCommand : ICommand
             var worker = (sender as BackgroundWorker)!;
             worker.ReportProgress(currentProgressPercentage);
 
-            QuestionsSeed questionsSeed;
+            QuestionTextSeed questionsSeed;
             List<(BitmapImage blackWhite, BitmapImage colored)> bitmapImages;
             if (_mainWindow.IsUkrLocalization)
             {
-                questionsSeed = _mainWindow.GameFactory.EngSeed;
+                questionsSeed = _mainWindow.GameFactoryEng.QuestionTextSeed;
                 bitmapImages = _mainWindow.BitmapImagesEng;
             }
             else
             {
-                questionsSeed = _mainWindow.GameFactory.UkrSeed;
+                questionsSeed = _mainWindow.GameFactoryUkr.QuestionTextSeed;
                 bitmapImages = _mainWindow.BitmapImagesUkr;
             }
             _mainWindow.Game.ChangeQuestionsTextBySeed(questionsSeed);

@@ -2,9 +2,11 @@
 using System.Windows.Input;
 using AutoMapper;
 using GamePlanetarium.Components;
+using GamePlanetarium.Domain.Answer;
 using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.GameData;
 using GamePlanetarium.Domain.Game;
+using GamePlanetarium.Domain.GameSeeds;
 using GamePlanetarium.Domain.Question;
 using GamePlanetarium.ViewModels;
 
@@ -18,11 +20,23 @@ public partial class MainWindow
     public MainWindow(Mapper mapper)
     {
         _mapper = mapper;
-        var gameFactory = new GameFactory(
-            new QuestionsSeedUkr(), new QuestionsSeedEng(), new ImageSeedUkr(), new ImageSeedEng(),
-            (_, _) => ShowVictoryWindow());
+        var gameFactoryUkr = new GameFactory((_, _) => ShowVictoryWindow(),
+            new QuestionTextSeed(new QuestionsSeedUkr().QuestionsText),
+            new ImageSeedUkr().QuestionImages, new[]
+            {
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First,
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First,
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First
+            });
+        var gameFactoryEng = new GameFactory((_, _) => ShowVictoryWindow(),
+            new QuestionTextSeed(new QuestionsSeedEng().QuestionsText),
+            new ImageSeedEng().QuestionImages, new[]
+            {
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First,
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First,
+                Answers.First, Answers.First, Answers.First, Answers.First, Answers.First
+            });
         // TODO: get startGame from db.
-        var startGame = gameFactory.GetGameByLocal(isUkrLocal: true);
         // var engGame = gameFactory.GetGameByLocal(false);
         // using (var db = new GameDb(
         //            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
@@ -34,7 +48,7 @@ public partial class MainWindow
         //     db.SaveChanges();
         // }
         InitializeComponent();
-        DataContext = _mainWindowViewModel = new MainWindowViewModel(startGame, gameFactory);
+        DataContext = _mainWindowViewModel = new MainWindowViewModel(gameFactoryUkr, gameFactoryEng);
     }
 
     private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)

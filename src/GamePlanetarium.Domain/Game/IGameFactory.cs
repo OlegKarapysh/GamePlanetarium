@@ -1,12 +1,14 @@
-﻿namespace GamePlanetarium.Domain.Game;
+﻿using GamePlanetarium.Domain.Answer;
+using GamePlanetarium.Domain.GameSeeds;
+using GamePlanetarium.Domain.Question;
+
+namespace GamePlanetarium.Domain.Game;
 
 public interface IGameFactory
 {
-    QuestionsSeed UkrSeed { get; }
-    QuestionsSeed EngSeed { get; }
-    ImageSeed UkrImg { get; }
-    ImageSeed EngImg { get; }
+    QuestionTextSeed QuestionTextSeed { get; }
+    public QuestionImage[] QuestionImages { get; }
+    public Answers[] CorrectAnswers { get; }
 
-    GameObservable GetGameBySeed(QuestionsSeed questionSeed, ImageSeed imageSeed);
-    GameObservable GetGameByLocal(bool isUkrLocal);
+    GameObservable GetGameBySeed();
 }

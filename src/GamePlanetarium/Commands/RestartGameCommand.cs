@@ -40,7 +40,9 @@ public class RestartGameCommand : ICommand
             var bitmapImages = _mainWindow.IsUkrLocalization
                 ? _mainWindow.BitmapImagesUkr
                 : _mainWindow.BitmapImagesEng;
-            _mainWindow.Game = _mainWindow.GameFactory.GetGameByLocal(_mainWindow.IsUkrLocalization);
+            _mainWindow.Game = _mainWindow.IsUkrLocalization
+                ? _mainWindow.GameFactoryUkr.GetGameBySeed()
+                : _mainWindow.GameFactoryEng.GetGameBySeed();
             _mainWindow.GameStatistics = new GameStatisticsDataCollector(_mainWindow.Game);
             for (int i = 0; i < _mainWindow.QuestionImages.Count; i++)
             {

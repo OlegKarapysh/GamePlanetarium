@@ -1,139 +1,49 @@
 ﻿using GamePlanetarium.Domain.Answer;
+using GamePlanetarium.Domain.GameSeeds;
 using GamePlanetarium.Domain.Question;
 
 namespace GamePlanetarium.Domain.Game;
 
 public class GameFactory : IGameFactory
 {
-    public QuestionsSeed UkrSeed { get; }
-    public QuestionsSeed EngSeed { get; }
-    public ImageSeed UkrImg { get; }
-    public ImageSeed EngImg { get; }
+    public QuestionTextSeed QuestionTextSeed { get; }
+    public QuestionImage[] QuestionImages { get; }
+    public Answers[] CorrectAnswers { get; }
     private readonly EventHandler _onGameEnded;
     
-    public GameFactory(QuestionsSeed ukrSeed, QuestionsSeed engSeed, ImageSeed ukrImg, ImageSeed engImg,
-        EventHandler onGameEnded)
+    public GameFactory(EventHandler onGameEnded, QuestionTextSeed questionTextSeed,
+        QuestionImage[] questionImages, Answers[] correctAnswers)
     {
-        UkrSeed = ukrSeed;
-        EngSeed = engSeed;
-        UkrImg = ukrImg;
-        EngImg = engImg;
+        if (questionTextSeed.Data.Length != GameObservable.QuestionsCount ||
+            questionImages.Length != GameObservable.QuestionsCount ||
+            correctAnswers.Length != GameObservable.QuestionsCount)
+        {
+            throw new ArgumentException("Number of seed data must correspond to QuestionsCount of game!");
+        }
         _onGameEnded = onGameEnded;
+        QuestionTextSeed = questionTextSeed;
+        QuestionImages = questionImages;
+        CorrectAnswers = correctAnswers;
     }
 
-    public GameObservable GetGameByLocal(bool isUkrLocal) => 
-        isUkrLocal ? GetGameBySeed(UkrSeed, UkrImg) : GetGameBySeed(EngSeed, EngImg);
-
-    public GameObservable GetGameBySeed(QuestionsSeed questionSeed, ImageSeed imageSeed)
+    public GameObservable GetGameBySeed()
     {
-        var game = new GameObservable(new IQuestion[]
+        var questions = new IQuestion[GameObservable.QuestionsCount];
+        for (int i = 0; i < GameObservable.QuestionsCount; i++)
         {
-            new SingleAnswerQuestion(questionSeed.QuestionsText[0].QuestionText,
-                new[]
+            questions[i] = new SingleAnswerQuestion(QuestionTextSeed.Data[i].QuestionText,
+                new Answer.Answer[]
                 {
-                    new Answer.Answer(questionSeed.QuestionsText[0].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[0].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[0].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[0]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[1].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[1].AnswersText[0], Answers.First, true),
-                    new Answer.Answer(questionSeed.QuestionsText[1].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[1].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[1]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[2].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[2].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[2].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[2].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[2]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[3].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[3].AnswersText[0], Answers.First, true),
-                    new Answer.Answer(questionSeed.QuestionsText[3].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[3].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[3]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[4].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[4].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[4].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[4].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[4]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[5].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[5].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[5].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[5].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[5]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[6].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[6].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[6].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[6].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[6]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[7].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[7].AnswersText[0], Answers.First, true),
-                    new Answer.Answer(questionSeed.QuestionsText[7].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[7].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[7]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[8].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[8].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[8].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[8].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[8]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[9].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[9].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[9].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[9].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[9]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[10].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[10].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[10].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[10].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[10]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[11].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[11].AnswersText[0], Answers.First, true),
-                    new Answer.Answer(questionSeed.QuestionsText[11].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[11].AnswersText[2], Answers.Third, true)
-                }, imageSeed.QuestionImages[11]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[12].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[12].AnswersText[0], Answers.First, true),
-                    new Answer.Answer(questionSeed.QuestionsText[12].AnswersText[1], Answers.Second, false),
-                    new Answer.Answer(questionSeed.QuestionsText[12].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[12]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[13].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[13].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[13].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[13].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[13]),
-            new SingleAnswerQuestion(questionSeed.QuestionsText[14].QuestionText,
-                new[]
-                {
-                    new Answer.Answer(questionSeed.QuestionsText[14].AnswersText[0], Answers.First, false),
-                    new Answer.Answer(questionSeed.QuestionsText[14].AnswersText[1], Answers.Second, true),
-                    new Answer.Answer(questionSeed.QuestionsText[14].AnswersText[2], Answers.Third, false)
-                }, imageSeed.QuestionImages[14]),
-        });
+                    new(QuestionTextSeed.Data[i].AnswersText[0], Answers.First,
+                        CorrectAnswers[i] == Answers.First),
+                    new(QuestionTextSeed.Data[i].AnswersText[1], Answers.Second,
+                        CorrectAnswers[i] == Answers.Second),
+                    new(QuestionTextSeed.Data[i].AnswersText[2], Answers.Third,
+                        CorrectAnswers[i] == Answers.Third),
+                }, QuestionImages[i]);
+        }
+
+        var game = new GameObservable(questions);
         game.GameEnded += _onGameEnded;
         return game;
     }

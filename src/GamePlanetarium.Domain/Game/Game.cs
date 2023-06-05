@@ -1,4 +1,5 @@
 ﻿using GamePlanetarium.Domain.Answer;
+using GamePlanetarium.Domain.GameSeeds;
 using GamePlanetarium.Domain.Question;
 
 namespace GamePlanetarium.Domain.Game;
@@ -37,19 +38,34 @@ public class Game
         return isAnswerCorrect;
     }
 
-    public void ChangeQuestionsTextBySeed(QuestionsSeed seed)
+    public QuestionTextSeed GetQuestionTextSeed()
+    {
+        return new QuestionTextSeed(
+            Questions
+                .Select(q => new QuestionTextData(
+                    q.Text, q.Answers.Select(a => a.Text).ToArray())).ToArray());
+    }
+
+    public Answers[] GetCorrectAnswers()
+    {
+        return Questions
+            .Select(q => q.Answers.First(a => a.IsCorrect).Number)
+            .ToArray();
+    }
+
+    public void ChangeQuestionsTextBySeed(QuestionTextSeed seed)
     {
         ArgumentNullException.ThrowIfNull(seed);
             
-        var questionsToChange = Math.Min(seed.QuestionsText.Length, Questions.Length);
+        var questionsToChange = Math.Min(seed.Data.Length, Questions.Length);
         for (int i = 0; i < questionsToChange; i++)
         {
-            Questions[i].Text = seed.QuestionsText[i].QuestionText;
-            var answersToChange = Math.Min(seed.QuestionsText[i].AnswersText.Length,
+            Questions[i].Text = seed.Data[i].QuestionText;
+            var answersToChange = Math.Min(seed.Data[i].AnswersText.Length,
                 Questions[i].Answers.Length);
             for (int j = 0; j < answersToChange; j++)
             {
-                Questions[i].Answers[j].Text = seed.QuestionsText[i].AnswersText[j];
+                Questions[i].Answers[j].Text = seed.Data[i].AnswersText[j];
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using GamePlanetarium.Commands;
 using GamePlanetarium.Converters;
 using GamePlanetarium.Domain.Game;
+using GamePlanetarium.Domain.Question;
 using GamePlanetarium.Domain.Statistics;
 
 namespace GamePlanetarium.ViewModels;
@@ -14,7 +15,8 @@ public class MainWindowViewModel : ViewModelBase
 {
     public GameObservable Game { get; set; }
     public GameStatisticsDataCollector GameStatistics { get; set; }
-    public IGameFactory GameFactory { get; }
+    public IGameFactory GameFactoryUkr { get; }
+    public IGameFactory GameFactoryEng { get; }
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr { get; }
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng { get; }
     public ICommand ShowQuestionImageCommand { get; }
@@ -47,10 +49,11 @@ public class MainWindowViewModel : ViewModelBase
     private string _gameTitle = GameTitleUkr;
     private readonly QuestionImageViewModel.QuestionImagePosition[] _questionImagePositions;
 
-    public MainWindowViewModel(GameObservable startGame, IGameFactory gameFactory)
+    public MainWindowViewModel(IGameFactory gameFactoryUkr, IGameFactory gameFactoryEng)
     {
-        GameFactory = gameFactory;
-        Game = startGame;
+        GameFactoryEng = gameFactoryEng;
+        GameFactoryUkr = gameFactoryUkr;
+        Game = gameFactoryUkr.GetGameBySeed();
         GameStatistics = new GameStatisticsDataCollector(Game);
         _questionImagePositions = new QuestionImageViewModel.QuestionImagePosition[]
         {
@@ -70,8 +73,8 @@ public class MainWindowViewModel : ViewModelBase
             new(550, 320, -9),
             new(470, 40, 18)
         };
-        BitmapImagesUkr = InitBitmapImages(GameFactory.UkrImg);
-        BitmapImagesEng = InitBitmapImages(GameFactory.EngImg);
+        BitmapImagesUkr = InitBitmapImages(gameFactoryUkr.QuestionImages);
+        BitmapImagesEng = InitBitmapImages(gameFactoryEng.QuestionImages);
         QuestionImages = InitQuestionImageViewModels(
             BitmapImagesUkr.Select(i => i.blackWhite).ToArray(), _questionImagePositions);
         
@@ -85,10 +88,10 @@ public class MainWindowViewModel : ViewModelBase
         IsUkrLocalization = !IsUkrLocalization;
     }
 
-    private List<(BitmapImage blackWhite, BitmapImage colored)> InitBitmapImages(ImageSeed imageSeed)
+    private List<(BitmapImage blackWhite, BitmapImage colored)> InitBitmapImages(QuestionImage[] imageSeed)
     {
         var result = new List<(BitmapImage blackWhite, BitmapImage colored)>();
-        foreach (var questionImage in imageSeed.QuestionImages)
+        foreach (var questionImage in imageSeed)
         {
             var blackWhiteImage =
                 BitmapImageConverter.ConvertBytesToImage(questionImage.BlackWhiteImageSource);
