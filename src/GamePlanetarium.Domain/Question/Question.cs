@@ -1,14 +1,21 @@
-﻿namespace GamePlanetarium.Domain.Question;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GamePlanetarium.Domain.Question;
 
 public abstract class Question : IQuestion
 {
     public const byte AnswersCount = 3;
             
-    public string Text { get; set; }
-    public Answer.Answer[] Answers { get; }
-    public QuestionImage QuestionImage { get; }
+    public required string Text { get; set; }
+    public virtual required Answer.Answer[] Answers { get; init; }
+    public required QuestionImage QuestionImage { get; init; }
     public bool IsAnswered { get; protected set; }
 
+
+    protected Question()
+    {
+    }
+    [SetsRequiredMembers]
     protected Question(string text, Answer.Answer[] answers, QuestionImage questionImage)
     {
         ArgumentNullException.ThrowIfNull(questionImage);

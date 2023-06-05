@@ -1,11 +1,17 @@
-﻿namespace GamePlanetarium.Domain.Answer;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GamePlanetarium.Domain.Answer;
 
 public class Answer
 {
-    public string Text { get; set; }
-    public Answers Number { get; }
-    public bool IsCorrect { get; }
-        
+    public required string Text { get; set; }
+    public required Answers Number { get; init; }
+    public required bool IsCorrect { get; init; }
+
+    public Answer()
+    {
+    }
+    [SetsRequiredMembers]
     public Answer(string text, Answers number, bool isCorrect)
     {
         Text = text;

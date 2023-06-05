@@ -11,6 +11,7 @@ public class QuestionStatisticsProfile : Profile
         CreateMap<QuestionStatisticsData, QuestionStatisticsDataEntity>()!
             .ForMember(d => d.QuestionOrder, s => s.MapFrom(f => f.QuestionOrder))!
             .ForMember(d => d.IncorrectAnswersCount, s => s.MapFrom(f => f.IncorrectAnswersCount))!
-            .ForMember(d => d.FirstAnswerText, s => s.MapFrom(f => f.FirstAnswerText));
+            .ForMember(d => d.FirstAnswerText, s => s.MapFrom(f => f.FirstAnswerText))!
+            .ReverseMap();
     }
 }

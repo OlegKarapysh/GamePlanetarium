@@ -10,6 +10,7 @@ public class AnswerProfile : Profile
         CreateMap<Answer.Answer, AnswerEntity>()!
             .ForMember(d => d.AnswerText, s => s.MapFrom(f => f.Text))!
             .ForMember(d => d.IsCorrect, s => s.MapFrom(f => f.IsCorrect))!
-            .ForMember(d => d.AnswerOrder, s => s.MapFrom(f => (int)f.Number));
+            .ForMember(d => d.AnswerOrder, s => s.MapFrom(f => (int)f.Number))!
+            .ReverseMap();
     }
 }

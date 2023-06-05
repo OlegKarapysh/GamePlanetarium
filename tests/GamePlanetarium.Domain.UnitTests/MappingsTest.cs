@@ -40,12 +40,17 @@ public class MappingsTest
         
         // Act.
         var mappedEntity = _mapper.Map<QuestionStatisticsDataEntity>(questionStatistics)!;
+        var reverseMapping = _mapper.Map<QuestionStatisticsData>(mappedEntity)!;
         
         // Assert.
         mappedEntity.Should()!.BeOfType<QuestionStatisticsDataEntity>();
         mappedEntity.QuestionOrder.Should()!.Be(questionOrder);
         mappedEntity.IncorrectAnswersCount.Should()!.Be(incorrectAnswerCount);
         mappedEntity.FirstAnswerText.Should()!.Be(firstAnswerText);
+        reverseMapping.Should()!.BeOfType<QuestionStatisticsData>();
+        reverseMapping.QuestionOrder.Should()!.Be(questionOrder);
+        reverseMapping.IncorrectAnswersCount.Should()!.Be(incorrectAnswerCount);
+        reverseMapping.FirstAnswerText.Should()!.Be(firstAnswerText);
     }
 
     [Fact]
@@ -75,14 +80,14 @@ public class MappingsTest
         game.TryAnswerQuestion(0, Answers.Second);
         
         // Act.
-        var mapping = _mapper.Map<GameStatisticsDataEntity>(gameStatistics)!;
+        var mappedEntity = _mapper.Map<GameStatisticsDataEntity>(gameStatistics)!;
         
         // Assert.
-        mapping.Should()!.BeOfType<GameStatisticsDataEntity>();
-        mapping.DateStamp.Should()!.Be(DateOnly.FromDateTime(DateTime.Today));
-        mapping.IsGameEnded.Should()!.BeFalse();
-        mapping.QuestionsStatistics.Should()!.HaveCount(1);
-        mapping.QuestionsAnsweredCount.Should()!.Be(1);
+        mappedEntity.Should()!.BeOfType<GameStatisticsDataEntity>();
+        mappedEntity.DateStamp.Should()!.Be(DateOnly.FromDateTime(DateTime.Today));
+        mappedEntity.IsGameEnded.Should()!.BeFalse();
+        mappedEntity.QuestionsStatistics.Should()!.HaveCount(1);
+        mappedEntity.QuestionsAnsweredCount.Should()!.Be(1);
     }
 
     [Fact]
@@ -92,14 +97,20 @@ public class MappingsTest
         var questionImage = new QuestionImage("QuestionImage1", new byte[] { 1, 2 }, new byte[] { 2, 1 });
         
         // Act.
-        var mapping = _mapper.Map<QuestionImageEntity>(questionImage)!;
+        var mappedEntity = _mapper.Map<QuestionImageEntity>(questionImage)!;
+        var reverseMapping = _mapper.Map<QuestionImage>(mappedEntity)!;
         
         // Assert.
-        mapping.Should()!.BeOfType<QuestionImageEntity>();
-        mapping.ImageName.Should()!.Be(questionImage.ImageName);
-        mapping.HashCode.Should()!.Be(questionImage.GetHashCode());
-        mapping.BlackWhiteImageSource.Should()!.Equal(questionImage.BlackWhiteImageSource);
-        mapping.ColoredImageSource.Should()!.Equal(questionImage.ColoredImageSource);
+        mappedEntity.Should()!.BeOfType<QuestionImageEntity>();
+        mappedEntity.ImageName.Should()!.Be(questionImage.ImageName);
+        mappedEntity.HashCode.Should()!.Be(questionImage.GetHashCode());
+        mappedEntity.BlackWhiteImageSource.Should()!.Equal(questionImage.BlackWhiteImageSource);
+        mappedEntity.ColoredImageSource.Should()!.Equal(questionImage.ColoredImageSource);
+        reverseMapping.Should()!.BeOfType<QuestionImage>();
+        reverseMapping.ImageName.Should()!.Be(questionImage.ImageName);
+        reverseMapping.GetHashCode().Should()!.Be(questionImage.GetHashCode());
+        reverseMapping.BlackWhiteImageSource.Should()!.Equal(questionImage.BlackWhiteImageSource);
+        reverseMapping.ColoredImageSource.Should()!.Equal(questionImage.ColoredImageSource);
     }
 
     [Fact]
@@ -109,13 +120,18 @@ public class MappingsTest
         var answer = new Answer.Answer("answer1", Answers.First, true);
         
         // Act.
-        var mapping = _mapper.Map<AnswerEntity>(answer)!;
+        var mappedEntity = _mapper.Map<AnswerEntity>(answer)!;
+        var reverseMapping = _mapper.Map<Answer.Answer>(mappedEntity)!;
         
         // Assert.
-        mapping.Should()!.BeOfType<AnswerEntity>();
-        mapping.AnswerText.Should()!.Be(answer.Text);
-        mapping.IsCorrect.Should()!.Be(answer.IsCorrect);
-        mapping.AnswerOrder.Should()!.Be((int)answer.Number);
+        mappedEntity.Should()!.BeOfType<AnswerEntity>();
+        mappedEntity.AnswerText.Should()!.Be(answer.Text);
+        mappedEntity.IsCorrect.Should()!.Be(answer.IsCorrect);
+        mappedEntity.AnswerOrder.Should()!.Be((int)answer.Number);
+        reverseMapping.Should()!.BeOfType<Answer.Answer>();
+        reverseMapping.Text.Should()!.Be(answer.Text);
+        reverseMapping.IsCorrect.Should()!.Be(answer.IsCorrect);
+        reverseMapping.Number.Should()!.Be(answer.Number);
     }
 
     [Fact]
@@ -132,13 +148,18 @@ public class MappingsTest
         var question = new SingleAnswerQuestion("question1", answers1, questionImage);
         
         // Act.
-        var mapping = _mapper.Map<QuestionEntity>(question)!;
+        var mappedEntity = _mapper.Map<QuestionEntity>(question)!;
+        var reverseMapping = _mapper.Map<SingleAnswerQuestion>(mappedEntity)!;
         
         // Assert.
-        mapping.Should()!.BeOfType<QuestionEntity>();
-        mapping.QuestionText.Should()!.Be(question.Text);
-        mapping.HasSingleAnswer.Should()!.BeTrue();
-        mapping.Answers.Should()!.HaveCount(answers1.Length);
-        mapping.QuestionImage.Should()!.NotBeNull()!.And.BeOfType<QuestionImageEntity>();
+        mappedEntity.Should()!.BeOfType<QuestionEntity>();
+        mappedEntity.QuestionText.Should()!.Be(question.Text);
+        mappedEntity.HasSingleAnswer.Should()!.BeTrue();
+        mappedEntity.Answers.Should()!.HaveCount(answers1.Length);
+        mappedEntity.QuestionImage.Should()!.NotBeNull()!.And.BeOfType<QuestionImageEntity>();
+        reverseMapping.Should()!.BeOfType<SingleAnswerQuestion>();
+        reverseMapping.Text.Should()!.Be(question.Text);
+        reverseMapping.Answers.Should()!.HaveCount(answers1.Length);
+        reverseMapping.QuestionImage.Should()!.NotBeNull()!.And.BeOfType<QuestionImage>();
     }
 }

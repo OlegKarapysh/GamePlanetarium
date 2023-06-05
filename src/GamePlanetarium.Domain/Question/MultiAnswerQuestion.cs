@@ -1,9 +1,12 @@
-﻿namespace GamePlanetarium.Domain.Question;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GamePlanetarium.Domain.Question;
 
 public class MultiAnswerQuestion : Question
 {
     public Answer.Answer[] CorrectAnswers { get; }
         
+    [SetsRequiredMembers]
     public MultiAnswerQuestion(string text, Answer.Answer[] answers, QuestionImage image)
         : base(text, answers, image)
     {

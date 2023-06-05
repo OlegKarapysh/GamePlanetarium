@@ -12,6 +12,7 @@ public class QuestionImageProfile : Profile
             .ForMember(d => d.ImageName, s => s.MapFrom(f => f.ImageName))!
             .ForMember(d => d.HashCode, s => s.MapFrom(f => f.GetHashCode()))!
             .ForMember(d => d.BlackWhiteImageSource, s => s.MapFrom(f => f.BlackWhiteImageSource))!
-            .ForMember(d => d.ColoredImageSource, s => s.MapFrom(f => f.ColoredImageSource));
+            .ForMember(d => d.ColoredImageSource, s => s.MapFrom(f => f.ColoredImageSource))!
+            .ReverseMap();
     }
 }
