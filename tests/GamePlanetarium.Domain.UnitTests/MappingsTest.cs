@@ -113,11 +113,14 @@ public class MappingsTest
         reverseMapping.ColoredImageSource.Should()!.Equal(questionImage.ColoredImageSource);
     }
 
-    [Fact]
-    public void AnswerProfile_ShouldMapAnswer_ToAnswerEntity()
+    [Theory]
+    [InlineData("a", 0, false)]
+    [InlineData("ab", 1, false)]
+    [InlineData("Abc1", 2, true)]
+    public void AnswerProfile_ShouldMapAnswer_ToAnswerEntity(string text, int order, bool isCorrect)
     {
         // Assign.
-        var answer = new Answer.Answer("answer1", Answers.First, true);
+        var answer = new Answer.Answer(text, (Answers)order, isCorrect);
         
         // Act.
         var mappedEntity = _mapper.Map<AnswerEntity>(answer)!;

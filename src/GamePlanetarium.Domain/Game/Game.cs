@@ -53,6 +53,8 @@ public class Game
             .ToArray();
     }
 
+    public QuestionImage[] GetQuestionImages() => Questions.Select(q => q.QuestionImage).ToArray();
+
     public void ChangeQuestionsTextBySeed(QuestionTextSeed seed)
     {
         ArgumentNullException.ThrowIfNull(seed);

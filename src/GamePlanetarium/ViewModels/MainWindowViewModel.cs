@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using GamePlanetarium.Commands;
+using GamePlanetarium.Components;
 using GamePlanetarium.Converters;
 using GamePlanetarium.Domain.Game;
 using GamePlanetarium.Domain.Question;
@@ -53,6 +54,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         GameFactoryEng = gameFactoryEng;
         GameFactoryUkr = gameFactoryUkr;
+        GameFactoryEng.OnGameEnded = (_, _) => ShowVictoryWindow();
+        GameFactoryUkr.OnGameEnded = (_, _) => ShowVictoryWindow();
         Game = gameFactoryUkr.GetGameBySeed();
         GameStatistics = new GameStatisticsDataCollector(Game);
         _questionImagePositions = new QuestionImageViewModel.QuestionImagePosition[]
@@ -114,4 +117,6 @@ public class MainWindowViewModel : ViewModelBase
 
         return result;
     }
+
+    private void ShowVictoryWindow() => new GameVictoriousWindow(IsUkrLocalization).ShowDialog();
 }

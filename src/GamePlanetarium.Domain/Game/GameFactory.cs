@@ -9,9 +9,9 @@ public class GameFactory : IGameFactory
     public QuestionTextSeed QuestionTextSeed { get; }
     public QuestionImage[] QuestionImages { get; }
     public Answers[] CorrectAnswers { get; }
-    private readonly EventHandler _onGameEnded;
+    public EventHandler? OnGameEnded { get; set; }
     
-    public GameFactory(EventHandler onGameEnded, QuestionTextSeed questionTextSeed,
+    public GameFactory(QuestionTextSeed questionTextSeed,
         QuestionImage[] questionImages, Answers[] correctAnswers)
     {
         if (questionTextSeed.Data.Length != GameObservable.QuestionsCount ||
@@ -20,7 +20,6 @@ public class GameFactory : IGameFactory
         {
             throw new ArgumentException("Number of seed data must correspond to QuestionsCount of game!");
         }
-        _onGameEnded = onGameEnded;
         QuestionTextSeed = questionTextSeed;
         QuestionImages = questionImages;
         CorrectAnswers = correctAnswers;
@@ -44,7 +43,10 @@ public class GameFactory : IGameFactory
         }
 
         var game = new GameObservable(questions);
-        game.GameEnded += _onGameEnded;
+        if (OnGameEnded is not null)
+        {
+            game.GameEnded += OnGameEnded;
+        }
         return game;
     }
 }

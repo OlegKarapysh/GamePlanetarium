@@ -9,6 +9,7 @@ public interface IGameFactory
     QuestionTextSeed QuestionTextSeed { get; }
     public QuestionImage[] QuestionImages { get; }
     public Answers[] CorrectAnswers { get; }
+    public EventHandler? OnGameEnded { get; set; }
 
     GameObservable GetGameBySeed();
 }

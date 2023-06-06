@@ -11,8 +11,7 @@
         Width="1920" Height="1080"
         ResizeMode="NoResize"
         Background="{StaticResource BackgroundSpace1}"
-        Style="{StaticResource WithDefaultFont}"
-        Loaded="MainWindow_OnLoaded">
+        Style="{StaticResource WithDefaultFont}">
     <Window.Resources>
         <Style x:Key="QuestionImage" TargetType="{x:Type Image}">
             <Setter Property="MaxHeight" Value="215"/>
