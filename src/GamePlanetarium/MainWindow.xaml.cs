@@ -10,7 +10,6 @@ public partial class MainWindow
     
     public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
-        // TODO: get startGame from db.
         // var engGame = gameFactory.GetGameByLocal(false);
         // using (var db = new GameDb(
         //            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))

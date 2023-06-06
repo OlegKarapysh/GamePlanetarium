@@ -5,6 +5,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using GamePlanetarium.Domain.Entities;
+using GamePlanetarium.Domain.Entities.Statistics;
 using GamePlanetarium.Domain.Statistics;
 using GamePlanetarium.ViewModels;
 
@@ -27,7 +29,13 @@ public class RestartGameCommand : ICommand
         {
             return;
         }
-        
+
+        using (var db = new GameDb(
+                   @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
+        {
+            db.GameStatistics.Add(_mainWindow.Mapper.Map<GameStatisticsDataEntity>(_mainWindow.GameStatistics)!);
+            db.SaveChanges();
+        }
         var progressBar = (ProgressBar)parameter!;
         progressBar.Visibility = Visibility.Visible;
         var backgroundWorker = new BackgroundWorker { WorkerReportsProgress = true };

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using AutoMapper;
 using GamePlanetarium.Commands;
 using GamePlanetarium.Components;
 using GamePlanetarium.Converters;
@@ -18,6 +19,7 @@ public class MainWindowViewModel : ViewModelBase
     public GameStatisticsDataCollector GameStatistics { get; set; }
     public IGameFactory GameFactoryUkr { get; }
     public IGameFactory GameFactoryEng { get; }
+    public Mapper Mapper { get; }
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr { get; }
     public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng { get; }
     public ICommand ShowQuestionImageCommand { get; }
@@ -50,12 +52,13 @@ public class MainWindowViewModel : ViewModelBase
     private string _gameTitle = GameTitleUkr;
     private readonly QuestionImageViewModel.QuestionImagePosition[] _questionImagePositions;
 
-    public MainWindowViewModel(IGameFactory gameFactoryUkr, IGameFactory gameFactoryEng)
+    public MainWindowViewModel(IGameFactory gameFactoryUkr, IGameFactory gameFactoryEng, Mapper mapper)
     {
         GameFactoryEng = gameFactoryEng;
         GameFactoryUkr = gameFactoryUkr;
         GameFactoryEng.OnGameEnded = (_, _) => ShowVictoryWindow();
         GameFactoryUkr.OnGameEnded = (_, _) => ShowVictoryWindow();
+        Mapper = mapper;
         Game = gameFactoryUkr.GetGameBySeed();
         GameStatistics = new GameStatisticsDataCollector(Game);
         _questionImagePositions = new QuestionImageViewModel.QuestionImagePosition[]
