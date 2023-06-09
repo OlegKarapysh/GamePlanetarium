@@ -1,8 +1,16 @@
-﻿@{
+﻿@model GamePlanetarium.Domain.Entities.GameData.AnswerEntity[]
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    @foreach(var answer in Model)
+    {
+        <p>@answer.Id</p>
+        <p>@answer.AnswerText</p>
+        <p>@answer.AnswerOrder</p>
+        <p>@answer.IsCorrect</p>
+    }
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

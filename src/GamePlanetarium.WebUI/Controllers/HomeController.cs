@@ -1,21 +1,26 @@
 ﻿using System.Diagnostics;
+using GamePlanetarium.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using GamePlanetarium.WebUI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamePlanetarium.WebUI.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly GameDb _db;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(GameDb db, ILogger<HomeController> logger)
     {
+        _db = db;
         _logger = logger;
     }
 
-    public IActionResult Index()
+    [HttpGet]
+    public async Task<IActionResult> Index()
     {
-        return View();
+        return View(await _db.Answers.ToArrayAsync());
     }
 
     public IActionResult Privacy()

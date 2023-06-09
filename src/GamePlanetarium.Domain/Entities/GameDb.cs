@@ -1,6 +1,7 @@
 ﻿using GamePlanetarium.Domain.Entities.GameData;
 using GamePlanetarium.Domain.Entities.Statistics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GamePlanetarium.Domain.Entities;
 
@@ -12,12 +13,15 @@ public class GameDb : DbContext
     public DbSet<QuestionStatisticsDataEntity> QuestionStatistics => Set<QuestionStatisticsDataEntity>();
     public DbSet<GameStatisticsDataEntity> GameStatistics => Set<GameStatisticsDataEntity>();
 
-    private readonly string _connectionString;
+    private readonly string? _connectionString;
 
     public GameDb(string connectionString)
     {
         ArgumentNullException.ThrowIfNull(connectionString);
         _connectionString = connectionString;
+    }
+    public GameDb(DbContextOptions<GameDb> options) : base(options)
+    {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +48,10 @@ public class GameDb : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_connectionString);
+        if (!_connectionString.IsNullOrEmpty())
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
         optionsBuilder.LogTo(Console.WriteLine);
     }
 }

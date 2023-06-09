@@ -1,7 +1,13 @@
+using GamePlanetarium.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Configuration.AddJsonFile("appsettings.Development.json");
+builder.Services.AddDbContext<GameDb>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
@@ -15,9 +21,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
