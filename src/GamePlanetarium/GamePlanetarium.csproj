@@ -180,45 +180,15 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Images\11.png" />
-      <Content Include="Images\11.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\11-color.png" />
-      <Content Include="Images\11-color.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\11-color-en.png" />
-      <Content Include="Images\11-color-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\11-en.png" />
-      <Content Include="Images\11-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\12.png" />
-      <Content Include="Images\12.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\12-color.png" />
-      <Content Include="Images\12-color.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\13.png" />
-      <Content Include="Images\13.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\13-color.png" />
-      <Content Include="Images\13-color.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\13-color-en.png" />
-      <Content Include="Images\13-color-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\13-en.png" />
-      <Content Include="Images\13-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\14.png" />
       <Content Include="Images\14.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -288,13 +258,7 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Images\12-color-en.png" />
-      <Content Include="Images\12-color-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Images\12-en.png" />
-      <Content Include="Images\12-en.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>

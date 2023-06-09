@@ -27,10 +27,51 @@ public partial class App
         _mapper = CreateConfiguredMapper();
         using var db = new GameDb(ConnectionString);
         {
+            // var correctAns = new Answers[]
+            // {
+            //     Answers.Second,
+            //     Answers.Third,
+            //     Answers.First,
+            //     Answers.Third,
+            //     Answers.Third,
+            //     Answers.First,
+            //     Answers.Second,
+            //     Answers.Third,
+            //     Answers.Third,
+            //     Answers.First
+            // };
+            // var fUkr = new GameFactory(
+            //     new QuestionTextSeed(new QuestionsSeedUkr().QuestionsText),
+            //     new ImageSeedUkr().QuestionImages, correctAns);
+            // var fEng = new GameFactory(
+            //     new QuestionTextSeed(new QuestionsSeedEng().QuestionsText),
+            //     new ImageSeedEng().QuestionImages, correctAns);
+            // db.Database.EnsureCreated();
+            // int counter = 1;
+            // foreach (var question in fUkr.GetGameBySeed().Questions)
+            // {
+            //     var questionEntity = _mapper.Map<QuestionEntity>((SingleAnswerQuestion)question)!;
+            //     questionEntity.QuestionNumber = counter;
+            //     counter++;
+            //     questionEntity.IsUkr = true;
+            //     db.Questions.Add(questionEntity);
+            // }
+            //
+            // counter = 1;
+            // foreach (var question in fEng.GetGameBySeed().Questions)
+            // {
+            //     var questionEntity = _mapper.Map<QuestionEntity>((SingleAnswerQuestion)question)!;
+            //     questionEntity.QuestionNumber = counter;
+            //     counter++;
+            //     questionEntity.IsUkr = false;
+            //     db.Questions.Add(questionEntity);
+            // }
+            // db.SaveChanges();
+
             var (questionTextSeedUkr, questionImagesUkr, correctAnswers1) = GetGameSeedsFromDb(
-                db, q => q.Id <= GameObservable.QuestionsCount);
+                db, q => q.QuestionNumber <= GameObservable.QuestionsCount && q.IsUkr);
             var (questionTextSeedEng, questionImagesEng, correctAnswers2) = GetGameSeedsFromDb(
-                db, q => q.Id > GameObservable.QuestionsCount && q.Id <= GameObservable.QuestionsCount * 2);
+                db, q => q.QuestionNumber <= GameObservable.QuestionsCount && !q.IsUkr);
             var gameFactoryUkr = new GameFactory(questionTextSeedUkr, questionImagesUkr, correctAnswers1);
             var gameFactoryEng = new GameFactory(questionTextSeedEng, questionImagesEng, correctAnswers2);
             _mainWindowViewModel = new MainWindowViewModel(gameFactoryUkr, gameFactoryEng, _mapper);

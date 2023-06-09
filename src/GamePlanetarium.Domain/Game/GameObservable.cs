@@ -5,7 +5,7 @@ namespace GamePlanetarium.Domain.Game;
 
 public sealed class GameObservable : Game, IGameObservable
 {
-    public const int QuestionsCount = 15;
+    public const int QuestionsCount = 10;
     public event EventHandler? GameEnded;
     public event EventHandler<AnsweredQuestionInfo>? TriedAnsweringQuestion;
 
@@ -26,7 +26,7 @@ public sealed class GameObservable : Game, IGameObservable
 
     public GameObservable(IQuestion[] questions) : base(questions)
     {
-        // TODO: make game with the fixed number of questions.
+        // TODO: make checks for game with the fixed number of questions.
         // if (questions.Length != QuestionsCount)
         // {
         //     throw new ArgumentException($"Number of questions in game must be equal to {QuestionsCount}!");

@@ -1,7 +1,6 @@
 ﻿using GamePlanetarium.Domain.Entities.GameData;
 using GamePlanetarium.Domain.Entities.Statistics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace GamePlanetarium.Domain.Entities;
 
@@ -48,7 +47,7 @@ public class GameDb : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!_connectionString.IsNullOrEmpty())
+        if (_connectionString is not null)
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }

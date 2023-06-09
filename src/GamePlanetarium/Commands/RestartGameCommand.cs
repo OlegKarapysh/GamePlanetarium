@@ -24,12 +24,11 @@ public class RestartGameCommand : ICommand
 
     public void Execute(object? parameter)
     {
-        // TODO: write statistics to database.
         if (_mainWindow.Game.Questions.All(q => !q.IsAnswered))
         {
             return;
         }
-
+        // TODO: Get connection string from file.
         using (var db = new GameDb(
                    @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
         {

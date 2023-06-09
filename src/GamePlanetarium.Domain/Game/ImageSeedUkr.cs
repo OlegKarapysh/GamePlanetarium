@@ -9,7 +9,7 @@ public class ImageSeedUkr : ImageSeed
         get
         {
             var images = new List<QuestionImage>();
-            for (int i = 1; i <= 15; i++)
+            for (int i = 1; i <= GameObservable.QuestionsCount; i++)
             {
                 var imageName = i + ImageExtension;
                 var coloredImageName = i + ColoredImagePostfix + ImageExtension;

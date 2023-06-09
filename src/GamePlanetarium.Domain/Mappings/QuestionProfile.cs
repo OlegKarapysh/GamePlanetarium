@@ -10,7 +10,6 @@ public class QuestionProfile : Profile
     {
         CreateMap<Question.Question, QuestionEntity>()!
             .ForMember(d => d.QuestionText, s => s.MapFrom(f => f.Text))!
-            .ForMember(d => d.HasSingleAnswer, s => s.MapFrom(f => f is SingleAnswerQuestion))!
             .ForMember(d => d.Answers, s => s.MapFrom(f => f.Answers))!
             .ForMember(d => d.QuestionImage, s => s.MapFrom(f => f.QuestionImage));
         CreateMap<QuestionEntity, SingleAnswerQuestion>()!

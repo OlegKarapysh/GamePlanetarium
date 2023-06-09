@@ -10,16 +10,6 @@ public partial class MainWindow
     
     public MainWindow(MainWindowViewModel mainWindowViewModel)
     {
-        // var engGame = gameFactory.GetGameByLocal(false);
-        // using (var db = new GameDb(
-        //            @"Server=(localdb)\MSSQLLocalDB;Database=GamePlanetarium;Trusted_Connection=True;"))
-        // {
-        //     foreach (var question in engGame.Questions)
-        //     {
-        //         db.Questions.Add(_mapper.Map<QuestionEntity>((SingleAnswerQuestion)question)!);
-        //     }
-        //     db.SaveChanges();
-        // }
         _mainWindowViewModel = mainWindowViewModel;
         InitializeComponent();
         DataContext = _mainWindowViewModel;
@@ -37,7 +27,6 @@ public partial class MainWindow
 
     private void RestartImage_OnActivated(object sender, MouseButtonEventArgs e)
     {
-        // TODO: create new game, save and upload game statistics.
         _mainWindowViewModel.RestartGameCommand.Execute(WorkProgressBar);
     }
 }

@@ -45,7 +45,7 @@ public class MainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
-
+    // TODO: Fix title string position during localization change.
     private const string GameTitleUkr = "ТЕСТ НА УВАЖНІСТЬ";
     private const string GameTitleEng = "ATTENTION TEST";
     private bool _isUkrLocalization = true;
@@ -61,6 +61,7 @@ public class MainWindowViewModel : ViewModelBase
         Mapper = mapper;
         Game = gameFactoryUkr.GetGameBySeed();
         GameStatistics = new GameStatisticsDataCollector(Game);
+        // TODO: Fix images' positions and size to fit 10 question game.
         _questionImagePositions = new QuestionImageViewModel.QuestionImagePosition[]
         {
             new(15, 530, 11),

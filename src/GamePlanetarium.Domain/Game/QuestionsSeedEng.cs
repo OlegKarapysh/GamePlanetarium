@@ -15,14 +15,6 @@ public class QuestionsSeedEng : QuestionsSeed
                 "No matter! Twelve zodiac constellations appear in the sky in 24 hours"
             }),
         new QuestionTextData(
-            "What is the function of the gold plating on a spacesuit helmet?", new[]
-            {
-                "To protect the astronaut’s eyes from the blinding sunlight",
-                "To reflect the second astronaut taking pictures so that he could also " +
-                "have a space photo as a souvenir",
-                "To look stylish",
-            }),
-        new QuestionTextData(
             "Why do we see the Moon in different colors?", new[]
             {
                 "The Moon is lit by different lamps",
@@ -43,14 +35,6 @@ public class QuestionsSeedEng : QuestionsSeed
                 "Mercury is more active than Neptune",
                 "Neptune is more massive than Mercury, so it is very difficult for it to move",
                 "Because of the Sun’s gravity"
-            }),
-        new QuestionTextData(
-            "How did cockroaches travel in space?", new[]
-            {
-                "Cockroaches have always been there. They seem to live everywhere",
-                "No creature gets into space by mistake. Everything goes through the so-called \"clean room\". " +
-                "Cockroaches were sent into space to study the influence of staying in orbit on living organisms",
-                "After the cockroaches signed a petition about their mistreatment on Earth"
             }),
         new QuestionTextData(
             "Where is the Solar System located in the Milky Way Galaxy?", new[]
@@ -88,33 +72,12 @@ public class QuestionsSeedEng : QuestionsSeed
                 "After the discovery of Hawking radiation, scientists believe that black holes are evaporating"
             }),
         new QuestionTextData(
-            "In your opinion, what kind of event was held at Planetarium Noosphere?", new[]
-            {
-                "A baby shower",
-                "A proposal under the starry sky",
-                "A birthday party"
-            }),
-        new QuestionTextData(
             "How did scientists find out the volume of the Sun, the mass of black holes, " +
             "and the number of stars in the galaxy?", new[]
             {
                 "It is a result of the joint efforts of astronomers, mathematicians, and physicists",
                 "There have been successful space expeditions studying every object in the Universe",
                 "Scientists just imagined things to avoid being asked silly questions"
-            }),
-        new QuestionTextData(
-            "How can you make a space journey at Planetarium Noosphere more pleasant?", new[]
-            {
-                "Put on a spacesuit",
-                "Take some flavored coffee to go",
-                "No, I’d better put on a spacesuit, after all"
-            }),
-        new QuestionTextData(
-            "How many lamps does the starry sky projector need to work?", new[]
-            {
-                "One candle will be enough",
-                "One lamp",
-                "4500 lamps"
             }),
     };
 }

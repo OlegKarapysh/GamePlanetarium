@@ -157,7 +157,6 @@ public class MappingsTest
         // Assert.
         mappedEntity.Should()!.BeOfType<QuestionEntity>();
         mappedEntity.QuestionText.Should()!.Be(question.Text);
-        mappedEntity.HasSingleAnswer.Should()!.BeTrue();
         mappedEntity.Answers.Should()!.HaveCount(answers1.Length);
         mappedEntity.QuestionImage.Should()!.NotBeNull()!.And.BeOfType<QuestionImageEntity>();
         reverseMapping.Should()!.BeOfType<SingleAnswerQuestion>();
