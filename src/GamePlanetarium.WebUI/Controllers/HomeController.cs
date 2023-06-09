@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.GameData;
-using GamePlanetarium.Domain.Question;
 using Microsoft.AspNetCore.Mvc;
 using GamePlanetarium.WebUI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -60,7 +59,10 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> DetailsQuestion(int id)
     {
-        return Content(id.ToString());
+        var requestedQuestion = await _db.Questions
+                                         .Include(q => q.QuestionImage).Include(q => q.Answers)
+                                         .FirstAsync(q => q.Id == id);
+        return View(requestedQuestion);
     }
 
     [HttpPost]

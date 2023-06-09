@@ -5,53 +5,53 @@
     Layout = "_Layout";
 }
 
-<h2>@ViewBag.Title</h2>
-@if ((bool)ViewData["CurrentQuestionsLocalIsUkr"]!)
-{
-    <h4><a asp-action="QuestionsEng">Переглянути питання англійською мовою</a></h4>
-}
-else
-{
-    <h4><a asp-action="QuestionsUkr">Переглянути питання українською мовою</a></h4>
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Номер
-            </th>
-            <th>
-                Текст
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var question in Model) {
-        <tr>
-            <td class="text-center">
-                @question.QuestionNumber
-            </td>
-            <td>
-                @TrimQuestionText(question.QuestionText)
-            </td>
-            <td>
-                <a asp-action="DetailsQuestion" asp-route-id="@question.Id">Детальніше</a> |
-                <a asp-action="EditQuestion" asp-route-id="@question.Id">Редагувати</a>
-            </td>
-        </tr>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    
+    @if ((bool)ViewData["CurrentQuestionsLocalIsUkr"]!)
+    {
+        <h4><a class="btn btn-secondary btn-sm" asp-action="QuestionsEng">
+            Переглянути питання англійською мовою
+        </a></h4>
     }
-    </tbody>
-    @functions{
-        private string TrimQuestionText(string questionText)
-        {
-            const int textMaxLength = 95;
-            if (questionText.Length > textMaxLength)
-            {
-                questionText = questionText.Substring(0, textMaxLength) + "...";
-            }
-            return questionText;
+    else
+    {
+        <h4><a class="btn btn-secondary btn-sm" asp-action="QuestionsUkr">
+            Переглянути питання українською мовою
+        </a></h4>
+    }
+    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center" scope="col">Номер</th>
+            <th class="text-center" scope="col">Текст</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var question in Model) {
+            <tr>
+                <td class="text-center">@question.QuestionNumber</td>
+                <td>@TrimQuestionText(question.QuestionText)</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="DetailsQuestion" asp-route-id="@question.Id">Детальніше</a>
+                    <a class="btn btn-primary btn-sm" asp-action="EditQuestion" asp-route-id="@question.Id">Редагувати</a>
+                </td>
+            </tr>
         }
+        </tbody>
+    </table>
+</div>
+
+@functions{
+    private string TrimQuestionText(string questionText)
+    {
+        const int textMaxLength = 95;
+        if (questionText.Length > textMaxLength)
+        {
+            questionText = questionText[..textMaxLength] + "...";
+        }
+        return questionText;
     }
-</table>
+}

@@ -1,0 +1,55 @@
+﻿@model GamePlanetarium.Domain.Entities.GameData.QuestionEntity
+
+@{
+    ViewBag.Title = "Деталі питання";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container mt-4 mb-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Номер питання: @Model.QuestionNumber</h4>
+            <p class="card-text">Текст питання: @Model.QuestionText</p>
+            
+            <div class="row justify-content-center mt-4 mb-4">
+                <h4>Чорно-біла картинка та кольорова картинка питання:</h4>
+                <div class="col-md-6">
+                    <img class="img-fluid" src="@GetImageSource(Model.QuestionImage.BlackWhiteImageSource)" alt="Чорно-біла картинка питання">
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid" src="@GetImageSource(Model.QuestionImage.ColoredImageSource)" alt="Кольорова картинка питання">
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h4>Відповіді:</h4>
+                <ul class="list-group">
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <li class="list-group-item">
+                            <h5>@AnswerOrderInWords(answer.AnswerOrder) (@IsCorrectInWords(answer.IsCorrect))</h5>
+                            <p>Текст відповіді: @answer.AnswerText</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@functions
+{
+    private string GetImageSource(byte[] byteSource) => $"data:image/png;base64,{Convert.ToBase64String(byteSource)}";
+    private string IsCorrectInWords(bool isCorrect) => isCorrect ? "правильна" : "неправильна";
+    private string AnswerOrderInWords(int answerOrder) => answerOrder switch
+    {
+        0 => "Перша відповідь",
+        1 => "Друга відповідь",
+        2 => "Третя відповідь",
+        _ => string.Empty
+        };
+}
+
