@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using GamePlanetarium.Domain.Entities;
+using GamePlanetarium.Domain.Entities.GameData;
+using GamePlanetarium.Domain.Question;
 using Microsoft.AspNetCore.Mvc;
 using GamePlanetarium.WebUI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +24,49 @@ public class HomeController : Controller
     {
         return View(await _db.Answers.ToArrayAsync());
     }
-
-    public IActionResult Privacy()
+    
+    [HttpGet]
+    public async Task<IActionResult> QuestionsUkr()
     {
-        return View();
+        ViewData["CurrentQuestionsLocalIsUkr"] = true;
+        return View("Questions", await _db.Questions
+                                          .Where(q => q.IsUkr)
+                                          .ToArrayAsync());
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> QuestionsEng()
+    {
+        ViewData["CurrentQuestionsLocalIsUkr"] = false;
+        return View("Questions", await _db.Questions
+                                          .Where(q => !q.IsUkr)
+                                          .ToArrayAsync());
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditQuestion(int id)
+    {
+        return Content(id.ToString());
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> EditQuestion(QuestionEntity questionEntity)
+    {
+        // _db.Questions.Update(questionEntity);
+        // await _db.SaveChangesAsync();
+        return Content(questionEntity.ToString());
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> DetailsQuestion(int id)
+    {
+        return Content(id.ToString());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteGameStatistics(int id)
+    {
+        return Content(id.ToString());
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
