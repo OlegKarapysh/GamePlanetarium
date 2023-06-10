@@ -35,8 +35,8 @@
                 <td class="text-center">@question.QuestionNumber</td>
                 <td>@TrimQuestionText(question.QuestionText)</td>
                 <td>
-                    <a class="btn btn-info btn-sm" asp-action="DetailsQuestion" asp-route-id="@question.Id">Детальніше</a>
-                    <a class="btn btn-primary btn-sm" asp-action="EditQuestion" asp-route-id="@question.Id">Редагувати</a>
+                    <a class="btn btn-primary btn-sm" asp-action="DetailsQuestion" asp-route-id="@question.Id">Детальніше</a>
+                    <a class="btn btn-info btn-sm" asp-action="EditQuestion" asp-route-id="@question.Id">Редагувати</a>
                 </td>
             </tr>
         }

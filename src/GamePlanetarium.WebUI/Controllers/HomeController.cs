@@ -2,8 +2,6 @@
 using GamePlanetarium.Domain.Answer;
 using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.GameData;
-using GamePlanetarium.Domain.Game;
-using GamePlanetarium.Domain.Question;
 using Microsoft.AspNetCore.Mvc;
 using GamePlanetarium.WebUI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +62,7 @@ public class HomeController : Controller
         var questionEntity = await GetQuestionEntityFromForm();
          _db.Questions.Update(questionEntity);
          await _db.SaveChangesAsync();
-         return RedirectToAction(questionEntity.IsUkr ? "QuestionsUkr" : "QuestionsEng");
+         return RedirectToAction("DetailsQuestion", new { id = questionEntity.Id });
     }
     
     [HttpGet]
@@ -74,12 +72,6 @@ public class HomeController : Controller
                                          .Include(q => q.QuestionImage).Include(q => q.Answers)
                                          .FirstAsync(q => q.Id == id);
         return View(requestedQuestion);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> DeleteGameStatistics(int id)
-    {
-        return Content(id.ToString());
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,0 +1,40 @@
+﻿@model GamePlanetarium.Domain.Entities.Statistics.GameStatisticsDataEntity[]
+
+@{
+    ViewBag.Title = "Статистика ігор";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center" scope="col">Чи успішно завершена гра</th>
+            <th class="text-center" scope="col">Кількість правильних відповідей</th>
+            <th class="text-center" scope="col">Дата гри</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var gameStatistics in Model) {
+            <tr>
+                <td class="text-center">@(gameStatistics.IsGameEnded ? "Так" : "Ні")</td>
+                <td class="text-center">@gameStatistics.QuestionsAnsweredCount</td>
+                <td class="text-center">@gameStatistics.DateStamp.ToString("d")</td>
+                <td class="justify-content-center">
+                    <div class="container justify-content-center">
+                        <form method="post" asp-action="DeleteGameStatistics" asp-route-id="@gameStatistics.Id">
+                            <a class="btn btn-primary btn-sm" asp-action="GameStatisticsDetails"
+                               asp-route-id="@gameStatistics.Id">Детальніше</a>
+                            <input type="submit" class="btn btn-danger btn-sm"
+                                   asp-action="DeleteGameStatistics" asp-route-id="@gameStatistics.Id"
+                                   value="Видалити"/>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
