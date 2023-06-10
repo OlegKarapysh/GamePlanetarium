@@ -1,6 +1,47 @@
+.file-input {
+  position: relative;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.file-input label {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.file-input label span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.file-input input[type="file"]:focus + label {
+  outline: 2px solid #000;
+}
+
 .question-image {
   width: 300px;
   height: 360px;
+}
+
+.field-validation-error {
+  color: #b94a48;
+}
+
+input.input-validation-error {
+  border-color: #b94a48;
+}
+
+.validation-summary-errors {
+  color: #b94a48;
 }
 
 html {

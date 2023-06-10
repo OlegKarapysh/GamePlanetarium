@@ -106,8 +106,11 @@ public partial class App
 
     private void App_OnExit(object sender, ExitEventArgs e)
     {
-        using var db = new GameDb(ConnectionString);
-        db.GameStatistics.Add(_mapper!.Map<GameStatisticsDataEntity>(_mainWindowViewModel!.GameStatistics)!);
-        db.SaveChanges();
+        if (_mainWindowViewModel!.Game.Questions.Any(q => q.IsAnswered))
+        {
+            using var db = new GameDb(ConnectionString);
+            db.GameStatistics.Add(_mapper!.Map<GameStatisticsDataEntity>(_mainWindowViewModel!.GameStatistics)!);
+            db.SaveChanges();
+        }
     }
 }

@@ -10,7 +10,8 @@ public class QuestionEntity
     [Required, Range(1, GameObservable.QuestionsCount)]
     public int QuestionNumber { get; set; }
 
-    [Required, MaxLength(1024, ErrorMessage = "Довжина питання не має перевищувати 1024 символів")]
+    [Required(ErrorMessage = "Питання повинно мати текст!"),
+     StringLength(1024, MinimumLength = 2, ErrorMessage = "Довжина питання повинна бути від 2 до 1024 символів!")]
     public string QuestionText { get; set; } = null!;
     [Required]
     public bool IsUkr { get; set; }

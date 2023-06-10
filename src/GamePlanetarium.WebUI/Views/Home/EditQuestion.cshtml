@@ -1,0 +1,83 @@
+﻿@model GamePlanetarium.Domain.Entities.GameData.QuestionEntity
+
+@{
+    ViewBag.Title = "Редагування питання";
+    Layout = "_Layout";
+    var answers = Model.Answers.ToArray();
+    var radioButtonLabels = new[] { "Перша", "Друга", "Третя" };
+}
+
+<h2>Редагування питання номер @Model.QuestionNumber</h2>
+
+<form method="post" asp-action="EditQuestion" enctype="multipart/form-data">
+    <div class="form-group mb-3">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="QuestionNumber" value="@Model.QuestionNumber" />
+        <input type="hidden" name="IsUkr" value="@Model.IsUkr.ToString()" />
+        <label asp-for="QuestionText" class="mb-2"><strong>Текст питання: </strong></label>
+        <input asp-for="QuestionText" class="form-control" type="text" name="QuestionText" maxlength="1024" autofocus />
+        <span asp-validation-for="QuestionText"></span>
+    </div>
+    <div class="form-group mb-3">
+        @for (int i = 0; i < answers.Length; i++)
+        {
+            <input type="hidden" name="Answers[@(i)].Id" value="@answers[i].Id" />
+            <input type="hidden" name="Answers[@(i)].AnswerOrder" value="@answers[i].AnswerOrder" />
+            <label asp-for="Answers.ToArray()[i].AnswerText" class="mb-2"><strong>Текст відповіді номер @(i + 1): </strong></label>
+            <input asp-for="Answers.ToArray()[i].AnswerText" class="form-control" type="text" name="Answers[@(i)].AnswerText" maxlength="1024" />
+            <span asp-validation-for="Answers.ToArray()[i].AnswerText"></span>
+        }
+    </div>
+    <div class="form-group mb-3">
+        <p><strong>Правильна відповідь: </strong></p>
+        @for (int i = 0; i < answers.Length; i++)
+        {
+            <div class="form-check mb-2">
+                <input id="ans@(i)" class="form-check-input" type="radio" name="CorrectAnswer" value="@i" @(answers[i].IsCorrect ? "checked" : "") />
+                <label class="form-check-label" for="ans@(i)">@radioButtonLabels[i]</label>
+            </div>
+        }
+    </div>
+    <div class="form-group mb-3">
+        <p><strong>Картинки питання: </strong></p>
+        <input type="hidden" name="QuestionImageId" value="@Model.QuestionImage.Id" />
+        <input type="hidden" name="QuestionImageName" value="@Model.QuestionImage.ImageName" />
+        <div class="file-input mb-2">
+            <input type="file" class="custom-file-input" name="blackWhiteImage" accept="image/png" id="img1" 
+                   onchange="updateFileName(this, 'img1-span')">
+            <label for="img1">
+                <span>Оберіть чорно-білу картинку...</span>
+            </label>
+            <span id="img1-span"></span>
+        </div>
+        <div class="file-input mb-2">
+            <input type="file" class="custom-file-input" name="coloredImage" accept="image/png" id="img2"
+                   onchange="updateFileName(this, 'img2-span')">
+            <label for="img2">
+                <span>Оберіть кольорову картинку...</span>
+            </label>
+            <span id="img2-span"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Готово</button>
+</form>
+
+
+@section Scripts {
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        let defaultInput = document.getElementById("QuestionText");
+        defaultInput.select();
+      });
+      function updateFileName(input, spanId) {
+          let fileName = input.files[0].name;
+          let label = document.getElementById(spanId);
+          label.innerHTML = fileName;
+      }
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+}
+

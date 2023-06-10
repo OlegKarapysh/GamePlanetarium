@@ -5,11 +5,11 @@ namespace GamePlanetarium.Domain.Game;
 public abstract class ImageSeed
 {
     public abstract QuestionImage[] QuestionImages { get; }
-    protected const string ImageExtension = ".png";
+    public const string ColoredImagePostfix = "-color";
+    public const string EngPostfix = "-en";
+    public const string ImageExtension = ".png";
     protected const string ImagesDirectoryName = "Images";
-    protected const string ColoredImagePostfix = "-color";
-    protected const string EngPostfix = "-en";
-    
+
     protected byte[] ConvertImageToBytes(string imagePath)
     {
         using var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);

@@ -2,6 +2,7 @@
 
 public class QuestionImage
 {
+    public const string ImageExtension = ".png";
     public string ImageName { get; }
     public byte[] BlackWhiteImageSource { get; }
     public byte[] ColoredImageSource { get; }
