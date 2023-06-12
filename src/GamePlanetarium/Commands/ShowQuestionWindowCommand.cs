@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using GamePlanetarium.Components;
 using GamePlanetarium.ViewModels;
 
@@ -26,7 +28,7 @@ public class ShowQuestionWindowCommand : ICommand
         var imageNumber = (byte)image.Tag!;
         new QuestionWindow(_mainWindow.Game, imageNumber, _mainWindow.IsUkrLocalization).ShowDialog();
         var bitmapImages = _mainWindow.IsUkrLocalization ? _mainWindow.BitmapImagesUkr : _mainWindow.BitmapImagesEng;
-        _mainWindow.QuestionImages[imageNumber].ImageSource = bitmapImages[imageNumber].colored;
+        _mainWindow.QuestionImages[imageNumber].ImageSource = bitmapImages[imageNumber].Colored;
         _mainWindow.QuestionImages[imageNumber].IsEnabled = false;
     }
 }

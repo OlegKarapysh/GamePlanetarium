@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using GamePlanetarium.Domain.Answer;
 using GamePlanetarium.Domain.Game;
+using GamePlanetarium.ViewModels;
 
 namespace GamePlanetarium.Components
 {
@@ -46,7 +47,9 @@ namespace GamePlanetarium.Components
             }
             else
             {
-                new IncorrectAnswerWindow(_isUkrLocal).ShowDialog();
+                new InfoWindow(
+                    new InfoWindowViewModel(InfoWindowViewModel.MessageType.IncorrectAnswer, _isUkrLocal))
+                    .ShowDialog();
             }
         }
     }

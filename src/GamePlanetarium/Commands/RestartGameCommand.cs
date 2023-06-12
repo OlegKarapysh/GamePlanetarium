@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using GamePlanetarium.Domain.Entities;
 using GamePlanetarium.Domain.Entities.Statistics;
 using GamePlanetarium.Domain.Statistics;
@@ -53,7 +55,7 @@ public class RestartGameCommand : ICommand
             _mainWindow.GameStatistics = new GameStatisticsDataCollector(_mainWindow.Game);
             for (int i = 0; i < _mainWindow.QuestionImages.Count; i++)
             {
-                _mainWindow.QuestionImages[i].ImageSource = bitmapImages[i].blackWhite;
+                _mainWindow.QuestionImages[i].ImageSource = bitmapImages[i].BlackWhite;
                 _mainWindow.QuestionImages[i].IsEnabled = true;
                 worker.ReportProgress(currentProgressPercentage += progressStep);
                 Thread.Sleep(1);

@@ -20,8 +20,8 @@ public class MainWindowViewModel : ViewModelBase
     public IGameFactory GameFactoryUkr { get; }
     public IGameFactory GameFactoryEng { get; }
     public Mapper Mapper { get; }
-    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesUkr { get; }
-    public List<(BitmapImage blackWhite, BitmapImage colored)> BitmapImagesEng { get; }
+    public List<(BitmapImage BlackWhite, BitmapImage Colored)> BitmapImagesUkr { get; }
+    public List<(BitmapImage BlackWhite, BitmapImage Colored)> BitmapImagesEng { get; }
     public ICommand ShowQuestionImageCommand { get; }
     public ICommand RestartGameCommand { get; }
     public ICommand ChangeLocalizationCommand { get; }
@@ -83,7 +83,7 @@ public class MainWindowViewModel : ViewModelBase
         BitmapImagesUkr = InitBitmapImages(gameFactoryUkr.QuestionImages);
         BitmapImagesEng = InitBitmapImages(gameFactoryEng.QuestionImages);
         QuestionImages = InitQuestionImageViewModels(
-            BitmapImagesUkr.Select(i => i.blackWhite).ToArray(), _questionImagePositions);
+            BitmapImagesUkr.Select(i => i.BlackWhite).ToArray(), _questionImagePositions);
         
         ShowQuestionImageCommand = new ShowQuestionWindowCommand(this);
         RestartGameCommand = new RestartGameCommand(this);
@@ -95,9 +95,9 @@ public class MainWindowViewModel : ViewModelBase
         IsUkrLocalization = !IsUkrLocalization;
     }
 
-    private List<(BitmapImage blackWhite, BitmapImage colored)> InitBitmapImages(QuestionImage[] imageSeed)
+    private List<(BitmapImage BlackWhite, BitmapImage Colored)> InitBitmapImages(QuestionImage[] imageSeed)
     {
-        var result = new List<(BitmapImage blackWhite, BitmapImage colored)>();
+        var result = new List<(BitmapImage BlackWhite, BitmapImage Colored)>();
         foreach (var questionImage in imageSeed)
         {
             var blackWhiteImage =
@@ -122,5 +122,6 @@ public class MainWindowViewModel : ViewModelBase
         return result;
     }
 
-    private void ShowVictoryWindow() => new GameVictoriousWindow(IsUkrLocalization).ShowDialog();
+    private void ShowVictoryWindow() => new InfoWindow(new InfoWindowViewModel(
+        InfoWindowViewModel.MessageType.GameVictory, IsUkrLocalization)).ShowDialog();
 }

@@ -35,7 +35,7 @@ public class ChangeLocalizationCommand : ICommand
             worker.ReportProgress(currentProgressPercentage);
 
             QuestionTextSeed questionsSeed;
-            List<(BitmapImage blackWhite, BitmapImage colored)> bitmapImages;
+            List<(BitmapImage BlackWhite, BitmapImage Colored)> bitmapImages;
             if (_mainWindow.IsUkrLocalization)
             {
                 questionsSeed = _mainWindow.GameFactoryEng.QuestionTextSeed;
@@ -51,7 +51,7 @@ public class ChangeLocalizationCommand : ICommand
             for (int i = 0; i < _mainWindow.QuestionImages.Count; i++)
             {
                 _mainWindow.QuestionImages[i].ImageSource =
-                    _mainWindow.QuestionImages[i].IsEnabled ? bitmapImages[i].blackWhite : bitmapImages[i].colored;
+                    _mainWindow.QuestionImages[i].IsEnabled ? bitmapImages[i].BlackWhite : bitmapImages[i].Colored;
                 worker.ReportProgress(currentProgressPercentage += progressStep);
                 Thread.Sleep(1);
             }
