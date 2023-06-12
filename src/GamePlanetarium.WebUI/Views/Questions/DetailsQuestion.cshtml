@@ -7,14 +7,18 @@
 
 <h2>@ViewBag.Title</h2>
 
+<h4><a class="btn btn-secondary btn-sm" asp-action="EditQuestion" asp-route-qid="@Model.Id">
+            Редагувати це питання
+        </a></h4>
+
 <div class="container mt-4 mb-4">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Номер питання: @Model.QuestionNumber</h4>
-            <p class="card-text">Текст питання: @Model.QuestionText</p>
+            <p class="card-text"><strong>Текст питання: </strong>@Model.QuestionText</p>
             
             <div class="row justify-content-center mt-4 mb-4">
-                <h4>Чорно-біла картинка та кольорова картинка питання:</h4>
+                <h4 class="text-center">Чорно-біла картинка та кольорова картинка питання:</h4>
                 <div class="col-md-6">
                     <img class="img-fluid" src="@GetImageSource(Model.QuestionImage.BlackWhiteImageSource)" alt="Чорно-біла картинка питання">
                 </div>
@@ -30,7 +34,7 @@
                     {
                         <li class="list-group-item">
                             <h5>@AnswerOrderInWords(answer.AnswerOrder) (@IsCorrectInWords(answer.IsCorrect))</h5>
-                            <p>Текст відповіді: @answer.AnswerText</p>
+                            <p><strong>Текст відповіді: </strong>@answer.AnswerText</p>
                         </li>
                     }
                 </ul>

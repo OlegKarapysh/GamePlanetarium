@@ -6,10 +6,15 @@
     var answers = Model.Answers.ToArray();
     var radioButtonLabels = new[] { "Перша", "Друга", "Третя" };
 }
-
+@if (ViewData["ErrorMessage"] is not null)
+{
+    <script>
+        alert("Треба завантажити обидві валідні картинки питання у форматі png!")
+    </script>
+}
 <h2>Редагування питання номер @Model.QuestionNumber</h2>
 
-<form method="post" asp-action="EditQuestion" enctype="multipart/form-data">
+<form method="post" asp-action="EditQuestion" enctype="multipart/form-data" id="editQuestionForm">
     <div class="form-group mb-3">
         <input type="hidden" name="Id" value="@Model.Id" />
         <input type="hidden" name="QuestionNumber" value="@Model.QuestionNumber" />
@@ -66,6 +71,22 @@
 
 @section Scripts {
     <script>
+    document.getElementById("editQuestionForm").addEventListener("submit", async function(event) {
+      event.preventDefault(); 
+        let formData = new FormData(this);
+        let response = await fetch("/Questions/EditQuestion", {
+          method: "POST",
+          body: formData
+        });
+        let responseData = await response.json()
+        if (!responseData.success) {
+          alert(responseData.errorMessage)
+        }
+        else {
+          alert('Питання успішно змінено. Не забудьте також змінити відповідне питання англійською мовою, якщо треба!')
+          window.location.href = responseData.redirect
+        }
+      });
       document.addEventListener("DOMContentLoaded", function() {
         let defaultInput = document.getElementById("QuestionText");
         defaultInput.select();
